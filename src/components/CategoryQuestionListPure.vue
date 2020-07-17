@@ -1,9 +1,9 @@
 <template>
   <ul class="question-list">
     <li class="question blue white-text z-depth-1"
-      v-for="q in questions"
+      v-for="(q, i) in questions"
       :key="q.hint"
-      @click="$emit('click-question', q)">{{ q.points }}</li>
+      @click="$emit('click-question', q.category, i)">{{ q.points }}</li>
   </ul>
 </template>
 

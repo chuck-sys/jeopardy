@@ -1,6 +1,11 @@
 <template>
   <div id="app" class="container">
-    <editor-panel class="editor-panel" :questions="questions"></editor-panel>
+    <editor-panel :questions="questions"
+      @update-question="onUpdateQuestion"
+      @delete-question="onDeleteQuestion"
+      @rename-category="onRenameCategory"
+      @add-category="onAddCategory"
+      @delete-category="onDeleteCategory"></editor-panel>
     <control-panel class="control-panel"
       @download-file="onDownloadFile"
       @upload-file="onUploadFile"></control-panel>
@@ -50,10 +55,43 @@ const Q_LOVES: Array<Question> = [
   },
 })
 export default class Editor extends Vue {
-  private questions: object = {
+  private questions: any = {
     Psalm: Q_PSALMS,
     '4 Loves': Q_LOVES,
   };
+
+  private onUpdateQuestion(i: number, q: Question) {
+    const { category } = q;
+    if (i === this.questions[category].length) {
+      this.questions[category].push(q);
+    } else {
+      this.questions[category][i].hint = q.hint;
+      this.questions[category][i].answer = q.answer;
+      this.questions[category][i].points = q.points;
+    }
+
+    this.questions[category].sort((a: Question, b: Question) => a.points - b.points);
+  }
+
+  private onDeleteQuestion(category: string, i: number) {
+    if (i >= 0 && i < this.questions[category].length) {
+      this.$delete(this.questions[category], i);
+    }
+  }
+
+  private onRenameCategory(oldCategory: string, newCategory: string) {
+    const oldQuestions = this.questions[oldCategory];
+    this.$set(this.questions, newCategory, oldQuestions);
+    this.$delete(this.questions, oldCategory);
+  }
+
+  private onAddCategory(category: string) {
+    this.$set(this.questions, category, []);
+  }
+
+  private onDeleteCategory(category: string) {
+    this.$delete(this.questions, category);
+  }
 
   private onUploadFile(evt: Event) {
     const reader = new FileReader();

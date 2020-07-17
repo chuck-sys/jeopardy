@@ -18,7 +18,7 @@ import { Prop, Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class CategoryModal extends Vue {
-  @Prop() private category!: string;
+  @Prop() private readonly category!: string;
 
   private categoryCopy = this.category;
   private clickDelete = false;

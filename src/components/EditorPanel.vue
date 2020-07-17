@@ -1,33 +1,35 @@
 <template>
-  <div>
-    <div v-if="!focused.clicked">
-      <div class="category center-align"
-        v-for="category in Object.keys(questions)"
-        :key="category">
-        <span class="header blue white-text z-depth-1">{{ category }}</span>
-        <category-question-list-pure :questions="questions[category]"
-          @click-question="onClickQuestion"></category-question-list-pure>
-        <span class="add-question blue lighten-2 white-text z-depth-1"
-          @click="onAddQuestion(category)">
-          <i class="material-icons">add</i>
-        </span>
-      </div>
-      <span class="blue lighten-2 white-text z-depth-1"
-        @click="onAddCategory"
-        :class="{card: typeCategory, 'add-category': !typeCategory}">
+  <div class="editor-panel">
+    <div class="category center-align"
+         v-for="category in Object.keys(questions)"
+         :key="category">
+      <span class="header blue white-text z-depth-1">{{ category }}</span>
+      <category-question-list-pure :questions="questions[category]"
+            @click-question="onClickQuestion"
+            @click-category="onClickCategory"></category-question-list-pure>
+      <span class="add-question blue lighten-2 white-text z-depth-1"
+            @click="onAddQuestion(category)">
         <i class="material-icons">add</i>
-        <span>Add Category</span>
+        Add Question
       </span>
     </div>
-    <edit-card v-else
-      :question="focused.question"
+    <span class="blue lighten-2 white-text z-depth-1 add-category"
+          @click="onAddCategory">
+      <i class="material-icons">add</i>
+      <span>Add Category</span>
+    </span>
+
+    <edit-modal
+      :question.sync="questionClone"
+      ref="editModal"
+      @save-question="onSaveQuestion"
       @delete="onDeleteQuestion"
-      @cancel-focus="onCancelFocus"></edit-card>
+      @cancel-focus="onCancelFocus"></edit-modal>
 
     <category-modal :category="tempCategory" ref="categoryModal"
-      @save-category="onSaveCategory"
-      @cancel-category="onCancelCategory"
-      @delete-category="onDeleteCategory"></category-modal>
+                                             @save-category="onSaveCategory"
+                                             @cancel-category="onCancelCategory"
+                                             @delete-category="onDeleteCategory"></category-modal>
   </div>
 </template>
 
@@ -35,93 +37,86 @@
 import {
   Prop, Component, Ref, Vue,
 } from 'vue-property-decorator';
-import M from 'materialize-css';
 
-import EditCard from './EditCard.vue';
+import { openModal, closeModal } from '../ModalHelpers';
+import EditModal from './EditModal.vue';
 import CategoryQuestionListPure from './CategoryQuestionListPure.vue';
 import CategoryModal from './CategoryModal.vue';
-import { Question } from '../question';
-
-interface Focused {
-  clicked: boolean;
-  question?: Question;
-}
-
-function makeUnfocused(): Focused {
-  return {
-    clicked: false,
-  };
-}
+import { Question, emptyQuestion, copy as copyQuestion } from '../question';
 
 @Component({
   components: {
-    EditCard,
+    EditModal,
     CategoryQuestionListPure,
     CategoryModal,
   },
 })
 export default class EditorPanel extends Vue {
   @Ref() private categoryModal!: Vue;
-  @Prop() private questions!: any;
+  @Ref() private editModal!: Vue;
+  @Prop() private readonly questions!: any;
 
-  private focused = makeUnfocused();
-  private typeCategory = false;
+  private clickIndex = -1;
+  private questionClone = emptyQuestion('');
   private tempCategory = '';
 
   private onSaveCategory(oldCategory: string, newCategory: string) {
-    const oldQuestions = oldCategory === '' ? [] : this.questions[oldCategory];
-    this.$set(this.questions, newCategory, oldQuestions);
-    this.$delete(this.questions, oldCategory);
-
-    const modal = M.Modal.getInstance(this.categoryModal.$el);
-    modal.close();
+    if (oldCategory === '') {
+      this.$emit('add-category', newCategory);
+    } else {
+      this.$emit('rename-category', oldCategory, newCategory);
+    }
+    closeModal(this.categoryModal);
   }
 
   private onCancelCategory() {
-    const modal = M.Modal.getInstance(this.categoryModal.$el);
-    modal.close();
+    closeModal(this.categoryModal);
   }
 
   private onDeleteCategory(category: string) {
-    this.$delete(this.questions, category);
-
-    const modal = M.Modal.getInstance(this.categoryModal.$el);
-    modal.close();
+    this.$emit('delete-category', category);
+    closeModal(this.categoryModal);
   }
 
   private onAddQuestion(category: string) {
-    const q: Question = {
-      hint: '',
-      points: 100,
-      category,
-      answer: '',
-    };
-    this.questions[category].push(q);
-    this.focused = { clicked: true, question: q };
+    // Logically, when you click at the end of a list, the index should be the
+    // end of the list.
+    this.clickIndex = this.questions[category].length;
+    this.questionClone = emptyQuestion(category);
+
+    openModal(this.editModal);
+  }
+
+  private onSaveQuestion() {
+    this.$emit('update-question', this.clickIndex, this.questionClone);
+    this.onCancelFocus();
   }
 
   private onAddCategory() {
-    const instance = M.Modal.init(this.categoryModal.$el, {});
-    instance.open();
+    openModal(this.categoryModal);
   }
 
-  private onClickQuestion(q: Question) {
-    this.focused = { clicked: true, question: q };
+  private onClickCategory(category: string) {
+    this.tempCategory = category;
+    openModal(this.categoryModal);
+  }
+
+  private onClickQuestion(category: string, i: number) {
+    this.clickIndex = i;
+    this.questionClone = copyQuestion(this.questions[category][i]);
+    openModal(this.editModal);
   }
 
   private onCancelFocus() {
-    if (this.focused.question && this.focused.question.hint === '') {
-      this.onDeleteQuestion(this.focused.question);
-    }
-    this.focused = makeUnfocused();
+    this.clickIndex = -1;
+    this.questionClone = emptyQuestion('');
+    closeModal(this.editModal);
   }
 
-  private onDeleteQuestion(q: Question) {
-    const { category } = q;
-    const i = this.questions[category].indexOf(q);
-    if (i >= 0 && i < this.questions[category].length) {
-      this.$delete(this.questions[category], i);
-    }
+  private onDeleteQuestion() {
+    const { category } = this.questionClone;
+    this.$emit('delete-question', category, this.clickIndex);
+    closeModal(this.editModal);
   }
 }
 </script>
