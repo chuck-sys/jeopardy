@@ -26,7 +26,7 @@ import { Prop, Component, Vue } from 'vue-property-decorator';
 import { Question, emptyQuestion } from '../question';
 
 @Component
-export default class QuestionCard extends Vue {
+export default class QuestionModal extends Vue {
   private showAnswer = false;
   private teams: Array<string> = [];
   private question: Question = emptyQuestion('');
