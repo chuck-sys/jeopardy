@@ -1,0 +1,23 @@
+image: node:latest
+
+cache:
+    paths:
+        - node_modules/
+
+test:
+    stage: test
+    script:
+        - yarn install
+        - yarn lint
+        - yarn build
+
+pages:
+    stage: deploy
+    script:
+        - yarn
+        - yarn build
+    artifacts:
+        paths:
+            - dist
+    only:
+        - master
