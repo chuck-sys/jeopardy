@@ -16,6 +16,7 @@ import { QuestionWithStatus } from '../question';
 export default class CategoryQuestionList extends Vue {
   @Prop() private questions!: Array<QuestionWithStatus>;
 
+  // eslint-disable-next-line
   private questionClass(q: QuestionWithStatus): any {
     return {
       blue: !q.seenAnswer,

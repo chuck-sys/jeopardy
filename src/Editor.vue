@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { Question, QuestionWithStatus, mapAddStatus } from './question';
+import { Question } from './question';
 import ControlPanel from './components/ControlPanel.vue';
 import EditorPanel from './components/EditorPanel.vue';
 

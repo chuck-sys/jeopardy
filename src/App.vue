@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { Question, QuestionWithStatus, mapAddStatus } from './question';
+import { Question, mapAddStatus } from './question';
 import Scoreboard from './components/Scoreboard.vue';
 import QuestionPanel from './components/QuestionPanel.vue';
 

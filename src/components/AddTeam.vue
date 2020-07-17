@@ -17,7 +17,6 @@
 
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator';
-import { Question, QuestionWithStatus, mapAddStatus } from '../question';
 
 @Component
 export default class AddTeam extends Vue {
