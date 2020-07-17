@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import { Question, emptyQuestion } from '../question';
 
 @Component

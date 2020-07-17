@@ -3,10 +3,12 @@
     <div class="category center-align"
          v-for="category in Object.keys(questions)"
          :key="category">
-      <span class="header blue white-text z-depth-1">{{ category }}</span>
-      <category-question-list-pure :questions="questions[category]"
-            @click-question="onClickQuestion"
-            @click-category="onClickCategory"></category-question-list-pure>
+      <span class="header blue white-text z-depth-1"
+            @click="onClickCategory(category)">{{ category }}</span>
+      <category-question-list-pure
+            :questions="questions[category]"
+            :category="category"
+            @click-question="onClickQuestion"></category-question-list-pure>
       <span class="add-question blue lighten-2 white-text z-depth-1"
             @click="onAddQuestion(category)">
         <i class="material-icons">add</i>
@@ -20,16 +22,15 @@
     </span>
 
     <edit-modal
-      :question.sync="questionClone"
       ref="editModal"
       @save-question="onSaveQuestion"
       @delete="onDeleteQuestion"
       @cancel-focus="onCancelFocus"></edit-modal>
 
-    <category-modal :category="tempCategory" ref="categoryModal"
-                                             @save-category="onSaveCategory"
-                                             @cancel-category="onCancelCategory"
-                                             @delete-category="onDeleteCategory"></category-modal>
+    <category-modal ref="categoryModal"
+                    @save-category="onSaveCategory"
+                    @cancel-category="onCancelCategory"
+                    @delete-category="onDeleteCategory"></category-modal>
   </div>
 </template>
 
@@ -52,19 +53,19 @@ import { emptyQuestion, copy as copyQuestion } from '../question';
   },
 })
 export default class EditorPanel extends Vue {
-  @Ref() private categoryModal!: Vue;
-  @Ref() private editModal!: Vue;
+  @Ref() private categoryModal!: CategoryModal;
+  @Ref() private editModal!: EditModal;
   @Prop() private readonly questions!: any;
 
   private clickIndex = -1;
   private questionClone = emptyQuestion('');
-  private tempCategory = '';
 
   private onSaveCategory(oldCategory: string, newCategory: string) {
     if (oldCategory === '') {
       this.$emit('add-category', newCategory);
     } else {
       this.$emit('rename-category', oldCategory, newCategory);
+      this.$forceUpdate();
     }
     closeModal(this.categoryModal);
   }
@@ -84,6 +85,7 @@ export default class EditorPanel extends Vue {
     this.clickIndex = this.questions[category].length;
     this.questionClone = emptyQuestion(category);
 
+    this.editModal.init(this.questionClone);
     openModal(this.editModal);
   }
 
@@ -93,17 +95,19 @@ export default class EditorPanel extends Vue {
   }
 
   private onAddCategory() {
+    this.categoryModal.init('');
     openModal(this.categoryModal);
   }
 
   private onClickCategory(category: string) {
-    this.tempCategory = category;
+    this.categoryModal.init(category);
     openModal(this.categoryModal);
   }
 
   private onClickQuestion(category: string, i: number) {
     this.clickIndex = i;
     this.questionClone = copyQuestion(this.questions[category][i]);
+    this.editModal.init(this.questionClone);
     openModal(this.editModal);
   }
 

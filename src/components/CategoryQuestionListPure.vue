@@ -3,7 +3,7 @@
     <li class="question blue white-text z-depth-1"
       v-for="(q, i) in questions"
       :key="q.hint"
-      @click="$emit('click-question', q.category, i)">{{ q.points }}</li>
+      @click="$emit('click-question', category, i)">{{ q.points }}</li>
   </ul>
 </template>
 
@@ -13,7 +13,8 @@ import { Question } from '../question';
 
 @Component
 export default class CategoryQuestionList extends Vue {
-  @Prop() private questions!: Array<Question>;
+  @Prop() private readonly category!: string;
+  @Prop() private readonly questions!: Array<Question>;
 }
 </script>
 

@@ -4,11 +4,11 @@
       Number of points
       <div class="input-field inline">
         <input id="i-points" class="white-text validate" type="number"
-                                                         v-model="copy.points">
+                                                         v-model="question.points">
       </div>
-      <textarea id="i-hint" cols="30" rows="10" v-model="copy.hint"></textarea>
+      <textarea id="i-hint" cols="30" rows="10" v-model="question.hint"></textarea>
       <label for="i-hint">The question itself</label>
-      <textarea id="i-answer" cols="30" rows="10" v-model="copy.answer"></textarea>
+      <textarea id="i-answer" cols="30" rows="10" v-model="question.answer"></textarea>
       <label for="i-answer">The answer to the question</label>
     </div>
     <div class="modal-footer">
@@ -24,16 +24,12 @@
 </template>
 
 <script lang="ts">
-import {
-  Prop, PropSync, Component, Vue,
-} from 'vue-property-decorator';
-import { Question } from '../question';
+import { Component, Vue } from 'vue-property-decorator';
+import { Question, emptyQuestion } from '../question';
 
 @Component
 export default class EditModal extends Vue {
-  @PropSync('question') private copy!: Question;
-  @Prop() private category!: string;
-
+  private question = emptyQuestion('');
   private clickDelete = false;
 
   private onClickDelete() {
@@ -45,6 +41,10 @@ export default class EditModal extends Vue {
         this.clickDelete = false;
       }, 1000);
     }
+  }
+
+  public init(q: Question) {
+    this.question = q;
   }
 }
 </script>

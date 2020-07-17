@@ -14,13 +14,12 @@
 </template>
 
 <script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class CategoryModal extends Vue {
-  @Prop() private readonly category!: string;
-
-  private categoryCopy = this.category;
+  private category = '';
+  private categoryCopy = '';
   private clickDelete = false;
 
   private onSave() {
@@ -40,6 +39,11 @@ export default class CategoryModal extends Vue {
         this.clickDelete = false;
       }, 1000);
     }
+  }
+
+  public init(category: string) {
+    this.category = category;
+    this.categoryCopy = category;
   }
 }
 </script>
