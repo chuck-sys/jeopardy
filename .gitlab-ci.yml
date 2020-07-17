@@ -14,10 +14,12 @@ test:
 pages:
     stage: deploy
     script:
-        - yarn
+        - yarn install
         - yarn build
+        - rm public/ -r
+        - mv dist public
     artifacts:
         paths:
-            - dist
+            - public
     only:
         - master
