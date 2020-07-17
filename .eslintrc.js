@@ -18,5 +18,6 @@ module.exports = {
     'no-param-reassign': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     'vue/no-use-v-if-with-v-for': 'warn',
+    'class-methods-use-this': 'warn',
   },
 };
