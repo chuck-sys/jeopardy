@@ -1,6 +1,7 @@
 <template>
   <div>
-    <input type="file" @change="$emit('upload-file', $event)">
+    <input type="file" @change="$emit('upload-file', $event)"
+           accept="application/json">
     <div class="right-pane">
       <p>Control panel</p>
       <a class="waves-effect waves-light btn" href="#"

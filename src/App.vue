@@ -1,7 +1,17 @@
 <template>
   <div id="app" class="container">
     <scoreboard :scores="scores"></scoreboard>
-    <question-panel :questions="questions" :scores="scores"></question-panel>
+    <div class="main">
+      <question-panel :questions="questions" :scores="scores"></question-panel>
+      <input id="i-file" type="file" @change="onUploadFile($event)"
+                         accept="application/json">
+    </div>
+
+    <div class="fixed-action-btn">
+      <a class="btn-floating btn-large red" href="editor.html">
+        <i class="material-icons">mode_edit</i>
+      </a>
+    </div>
   </div>
 </template>
 
@@ -46,16 +56,41 @@ export default class App extends Vue {
     'Team Hulu': 100,
     'Team Bond': 300,
   };
-
   private questions: object = {
     Psalm: mapAddStatus(Q_PSALMS),
     '4 Loves': mapAddStatus(Q_LOVES),
   };
+
+  private onUploadFile(evt: Event) {
+    const reader = new FileReader();
+    reader.onload = (e: Event) => {
+      const { result } = e.target as any;
+      const questions = JSON.parse(result);
+
+      Object.keys(questions).forEach((category) => {
+        questions[category] = mapAddStatus(questions[category]);
+      });
+
+      this.questions = questions;
+    };
+
+    reader.readAsText((evt.target as any).files[0]);
+  }
 }
 </script>
 
 <style lang="scss">
 #app {
   padding-left: 300px;
+}
+
+div.main {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+
+input#i-file {
+  margin-top: 2rem;
 }
 </style>

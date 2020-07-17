@@ -4,6 +4,12 @@
     <control-panel class="control-panel"
       @download-file="onDownloadFile"
       @upload-file="onUploadFile"></control-panel>
+
+    <div class="fixed-action-btn">
+      <a class="btn-floating btn-large red" href="index.html">
+        <i class="material-icons">play_arrow</i>
+      </a>
+    </div>
   </div>
 </template>
 
