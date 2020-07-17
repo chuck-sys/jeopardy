@@ -3,7 +3,8 @@
     <input type="file" @change="$emit('upload-file', $event)">
     <div class="right-pane">
       <p>Control panel</p>
-      <a class="waves-effect waves-light btn" href="#">
+      <a class="waves-effect waves-light btn" href="#"
+                @click="$emit('download-file')">
         <i class="material-icons">cloud_download</i>
         Download
       </a>
