@@ -65,7 +65,6 @@ export default class EditorPanel extends Vue {
       this.$emit('add-category', newCategory);
     } else {
       this.$emit('rename-category', oldCategory, newCategory);
-      this.$forceUpdate();
     }
     closeModal(this.categoryModal);
   }

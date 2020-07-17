@@ -80,6 +80,10 @@ export default class Editor extends Vue {
   }
 
   private onRenameCategory(oldCategory: string, newCategory: string) {
+    if (oldCategory === newCategory) {
+      return;
+    }
+
     const oldQuestions: Array<Question> = this.questions[oldCategory];
     oldQuestions.forEach((q) => {
       q.category = newCategory;
