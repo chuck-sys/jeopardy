@@ -3,7 +3,7 @@
     <li class="question white-text z-depth-1"
       v-for="q in questions"
       :class="questionClass(q)"
-      :key="q.hint"
+      :key="q.q.hint"
       @click="$emit('click-question', q)">{{ q.q.points }}</li>
   </ul>
 </template>
