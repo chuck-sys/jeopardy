@@ -42,7 +42,7 @@ import { openModal, closeModal } from '../ModalHelpers';
 import EditModal from './EditModal.vue';
 import CategoryQuestionListPure from './CategoryQuestionListPure.vue';
 import CategoryModal from './CategoryModal.vue';
-import { Question, emptyQuestion, copy as copyQuestion } from '../question';
+import { emptyQuestion, copy as copyQuestion } from '../question';
 
 @Component({
   components: {

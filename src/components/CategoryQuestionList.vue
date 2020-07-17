@@ -1,10 +1,10 @@
 <template>
   <ul class="question-list">
     <li class="question white-text z-depth-1"
-      v-for="q in questions"
+      v-for="(q, i) in questions"
       :class="questionClass(q)"
       :key="q.q.hint"
-      @click="$emit('click-question', q)">{{ q.q.points }}</li>
+      @click="$emit('click-question', q.q.category, i)">{{ q.q.points }}</li>
   </ul>
 </template>
 

@@ -2,7 +2,8 @@
   <div id="app" class="container">
     <scoreboard :scores="scores"></scoreboard>
     <div class="main">
-      <question-panel :questions="questions" :scores="scores"></question-panel>
+      <question-panel :questions="questions" :scores="scores"
+        @add-score="onAddScore" @view-answer="onViewAnswer"></question-panel>
       <input id="i-file" type="file" @change="onUploadFile($event)"
                          accept="application/json">
     </div>
@@ -17,7 +18,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { Question, mapAddStatus } from './question';
+import { Question, QuestionWithStatus, mapAddStatus } from './question';
 import Scoreboard from './components/Scoreboard.vue';
 import QuestionPanel from './components/QuestionPanel.vue';
 
@@ -52,11 +53,11 @@ const Q_LOVES: Array<Question> = [
   },
 })
 export default class App extends Vue {
-  private scores: object = {
+  private scores: any = {
     'Team Hulu': 100,
     'Team Bond': 300,
   };
-  private questions: object = {
+  private questions: any = {
     Psalm: mapAddStatus(Q_PSALMS),
     '4 Loves': mapAddStatus(Q_LOVES),
   };
@@ -75,6 +76,21 @@ export default class App extends Vue {
     };
 
     reader.readAsText((evt.target as any).files[0]);
+  }
+
+  private onAddScore(team: string, category: string, i: number) {
+    if (i >= 0 && i < this.questions[category].length) {
+      const q: QuestionWithStatus = this.questions[category][i];
+      this.$set(this.scores, team, this.scores[team] + q.q.points);
+      q.answeredBy = team;
+    }
+  }
+
+  private onViewAnswer(category: string, i: number) {
+    if (i >= 0 && i < this.questions[category].length) {
+      const q: QuestionWithStatus = this.questions[category][i];
+      q.seenAnswer = true;
+    }
   }
 }
 </script>
