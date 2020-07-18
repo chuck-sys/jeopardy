@@ -40,3 +40,24 @@ export function copy(q: Question): Question {
     answer: q.answer,
   };
 }
+
+export type Questions = {[key: string]: Question[]};
+export type QuestionsWithStatus = {[key: string]: QuestionWithStatus[]}
+
+export function questionsMakeStatus(qs: Questions): QuestionsWithStatus {
+  const ret: QuestionsWithStatus = {};
+  Object.keys(qs).forEach((category: string) => {
+    ret[category] = mapAddStatus(qs[category]);
+  });
+
+  return ret;
+}
+
+export function statusMakeQuestions(qs: QuestionsWithStatus): Questions {
+  const ret: Questions = {};
+  Object.keys(qs).forEach((category: string) => {
+    ret[category] = qs[category].map((q: QuestionWithStatus) => q.q);
+  });
+
+  return ret;
+}

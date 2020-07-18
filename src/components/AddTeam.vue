@@ -16,24 +16,17 @@
 </template>
 
 <script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class AddTeam extends Vue {
-  @Prop() private scores!: object;
-
   private addTeamPressed = false;
   private teamName = '';
 
   private onAddTeam() {
-    if (Object.prototype.hasOwnProperty.call(this.scores, this.teamName)) {
-      return;
-    }
-
-    this.$set(this.scores, this.teamName, 0);
+    this.$emit('add-team', this.teamName);
     this.addTeamPressed = false;
     this.teamName = '';
-    this.$forceUpdate();
   }
 }
 </script>

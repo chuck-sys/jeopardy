@@ -21,8 +21,9 @@ import {
   Prop, Ref, Component, Vue,
 } from 'vue-property-decorator';
 
+import { Scores } from '../Storage';
 import { openModal, closeModal } from '../ModalHelpers';
-import { emptyQuestion } from '../question';
+import { emptyQuestion, QuestionsWithStatus } from '../question';
 import CategoryQuestionList from './CategoryQuestionList.vue';
 import QuestionModal from './QuestionModal.vue';
 
@@ -34,8 +35,8 @@ import QuestionModal from './QuestionModal.vue';
 })
 export default class QuestionPanel extends Vue {
   @Ref() private questionModal!: QuestionModal;
-  @Prop() private readonly questions!: any;
-  @Prop() private readonly scores!: any;
+  @Prop() private readonly questions!: QuestionsWithStatus;
+  @Prop() private readonly scores!: Scores;
 
   private questionClicked = emptyQuestion('');
   private clickIndex = -1;

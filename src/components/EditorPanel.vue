@@ -43,7 +43,7 @@ import { openModal, closeModal } from '../ModalHelpers';
 import EditModal from './EditModal.vue';
 import CategoryQuestionListPure from './CategoryQuestionListPure.vue';
 import CategoryModal from './CategoryModal.vue';
-import { emptyQuestion, copy as copyQuestion } from '../question';
+import { emptyQuestion, copy as copyQuestion, Questions } from '../question';
 
 @Component({
   components: {
@@ -55,7 +55,7 @@ import { emptyQuestion, copy as copyQuestion } from '../question';
 export default class EditorPanel extends Vue {
   @Ref() private categoryModal!: CategoryModal;
   @Ref() private editModal!: EditModal;
-  @Prop() private readonly questions!: any;
+  @Prop() private readonly questions!: Questions;
 
   private clickIndex = -1;
   private questionClone = emptyQuestion('');

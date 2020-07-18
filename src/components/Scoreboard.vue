@@ -14,12 +14,13 @@
       <span class="badge">{{ scores[teamName] }}</span>
     </li>
 
-    <add-team :scores="scores"></add-team>
+    <add-team @add-team="onAddTeam"></add-team>
   </ul>
 </template>
 
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator';
+import { Scores } from '../Storage';
 import AddTeam from './AddTeam.vue';
 
 @Component({
@@ -28,7 +29,7 @@ import AddTeam from './AddTeam.vue';
   },
 })
 export default class Scoreboard extends Vue {
-  @Prop() private scores!: object;
+  @Prop() private readonly scores!: Scores;
 
   private focused: Set<string> = new Set();
 
@@ -37,7 +38,7 @@ export default class Scoreboard extends Vue {
     const bt = document.getElementById(name) as HTMLElement;
 
     if (clickedOnce) {
-      this.$delete(this.scores, name);
+      this.$emit('remove-team', name);
       this.focused.delete(name);
       bt.classList.remove('red');
     } else {
@@ -49,6 +50,10 @@ export default class Scoreboard extends Vue {
         bt.classList.remove('red');
       }, 1000);
     }
+  }
+
+  private onAddTeam(team: string) {
+    this.$emit('add-team', team);
   }
 }
 </script>

@@ -20,33 +20,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { Question } from './question';
+import { Question, Questions } from './question';
+import { getQuestions, setQuestions } from './Storage';
 import ControlPanel from './components/ControlPanel.vue';
 import EditorPanel from './components/EditorPanel.vue';
-
-const Q_PSALMS: Array<Question> = [
-  {
-    hint: 'List 3 of the chapters we have studied this year.',
-    points: 200,
-    category: 'Psalm',
-    answer: '1, 8, 23, 51, 90, 139, 16:1-11, 19:1-14, 121, 119:1-16, 119:89-106',
-  },
-  {
-    hint: '1 + 1 =',
-    points: 300,
-    category: 'Psalm',
-    answer: '2',
-  },
-];
-
-const Q_LOVES: Array<Question> = [
-  {
-    hint: 'List the names of the 4 loves.',
-    points: 100,
-    category: '4 Loves',
-    answer: 'Agape, Eros, Philia, Storge',
-  },
-];
 
 @Component({
   components: {
@@ -55,10 +32,7 @@ const Q_LOVES: Array<Question> = [
   },
 })
 export default class Editor extends Vue {
-  private questions: any = {
-    Psalm: Q_PSALMS,
-    '4 Loves': Q_LOVES,
-  };
+  private questions: Questions = getQuestions();
 
   private onUpdateQuestion(i: number, q: Question) {
     const { category } = q;
@@ -71,11 +45,13 @@ export default class Editor extends Vue {
     }
 
     this.questions[category].sort((a: Question, b: Question) => a.points - b.points);
+    setQuestions(this.questions);
   }
 
   private onDeleteQuestion(category: string, i: number) {
     if (i >= 0 && i < this.questions[category].length) {
       this.$delete(this.questions[category], i);
+      setQuestions(this.questions);
     }
   }
 
@@ -90,14 +66,17 @@ export default class Editor extends Vue {
     });
     this.$set(this.questions, newCategory, oldQuestions);
     this.$delete(this.questions, oldCategory);
+    setQuestions(this.questions);
   }
 
   private onAddCategory(category: string) {
     this.$set(this.questions, category, []);
+    setQuestions(this.questions);
   }
 
   private onDeleteCategory(category: string) {
     this.$delete(this.questions, category);
+    setQuestions(this.questions);
   }
 
   private onUploadFile(evt: Event) {
@@ -106,6 +85,7 @@ export default class Editor extends Vue {
       const { result } = e.target as any;
       const questions = JSON.parse(result);
       this.questions = questions;
+      setQuestions(this.questions);
     };
 
     reader.readAsText((evt.target as any).files[0]);
