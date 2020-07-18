@@ -1,15 +1,14 @@
 <template>
-  <div class="modal blue">
-    <div class="modal-content white-text">
-      Number of points
-      <div class="input-field inline">
-        <input id="i-points" class="white-text validate" type="number"
-                                                         v-model="question.points">
+  <div class="modal">
+    <div class="modal-content">
+      <div class="jgrid">
+        <span id="m-points">Points:</span>
+        <input id="i-points" type="number" v-model="question.points">
+        <span id="m-hint">Hint:</span>
+        <textarea id="i-hint" v-model="question.hint"></textarea>
+        <span id="m-answer">Answer:</span>
+        <textarea id="i-answer" v-model="question.answer"></textarea>
       </div>
-      <textarea id="i-hint" cols="30" rows="10" v-model="question.hint"></textarea>
-      <label for="i-hint">The question itself</label>
-      <textarea id="i-answer" cols="30" rows="10" v-model="question.answer"></textarea>
-      <label for="i-answer">The answer to the question</label>
     </div>
     <div class="modal-footer">
       <a href="#" class="btn waves-effect waves-light" @click="$emit('cancel-focus')">Cancel</a>
@@ -48,3 +47,61 @@ export default class EditModal extends Vue {
   }
 }
 </script>
+
+<style lang="scss">
+div.modal {
+  width: 40rem;
+}
+
+div.jgrid {
+  display: grid;
+  grid-template-columns: 15% 85%;
+  gap: 1rem 0.2rem;
+}
+
+textarea {
+  border: none;
+  border-bottom: 1px solid #9e9e9e;
+  transition: border .3s, box-shadow .3s;
+}
+
+textarea:focus {
+  border-bottom: 1px solid #26a69a;
+  box-shadow: 0 1px 0 0 #26a69a;
+}
+
+span#m-points {
+  grid-column: 1 / span 1;
+  grid-row: 1 / span 1;
+}
+
+input#i-points {
+  width: 4rem;
+  height: unset;
+  grid-column: 2 / span 1;
+  grid-row: 1 / span 1;
+}
+
+span#m-hint {
+  grid-column: 1 / span 1;
+  grid-row: 2 / span 1;
+}
+
+textarea#i-hint {
+  height: 10rem;
+  grid-column: 2 / span 1;
+  grid-row: 2 / span 1;
+}
+
+span#m-answer {
+  grid-column: 1 / span 1;
+  grid-row: 3 / span 1;
+}
+
+textarea#i-answer {
+  height: 5rem;
+  grid-column: 2 / span 1;
+  grid-row: 3 / span 1;
+}
+
+</style>
