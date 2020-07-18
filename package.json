@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register test/**/*.spec.ts",
-	"coverage": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' nyc --reporter cobertura mocha -r ts-node/register test/**/*.spec.ts"
+	"coverage": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' nyc --reporter cobertura --reporter text mocha -r ts-node/register test/**/*.spec.ts"
   },
   "dependencies": {
     "@types/materialize-css": "^1.0.8",
