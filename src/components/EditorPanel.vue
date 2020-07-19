@@ -3,19 +3,19 @@
     <div class="category center-align"
          v-for="category in Object.keys(questions)"
          :key="category">
-      <span class="header blue white-text z-depth-1"
+      <span class="header z-depth-1"
             @click="onClickCategory(category)">{{ category }}</span>
       <category-question-list-pure
             :questions="questions[category]"
             :category="category"
             @click-question="onClickQuestion"></category-question-list-pure>
-      <span class="add-question blue lighten-2 white-text z-depth-1"
+      <span class="add-question z-depth-1"
             @click="onAddQuestion(category)">
         <i class="material-icons">add</i>
         Add Question
       </span>
     </div>
-    <span class="blue lighten-2 white-text z-depth-1 add-category"
+    <span class="z-depth-1 add-category"
           @click="onAddCategory">
       <i class="material-icons">add</i>
       <span>Add Category</span>
@@ -125,6 +125,8 @@ export default class EditorPanel extends Vue {
 </script>
 
 <style lang="scss">
+@use 'src/assets/theme.scss';
+
 div.editor-panel {
   margin-top: 1rem;
 
@@ -133,6 +135,8 @@ div.editor-panel {
     width: 10rem;
 
     .header, .add-question {
+      background: theme.$main;
+      color: theme.$text;
       display: block;
       padding: 1rem;
       margin: 0.4rem 0.2rem;
@@ -141,6 +145,8 @@ div.editor-panel {
   }
 
   .add-category {
+    background: theme.$main;
+    color: theme.$text;
     float: left;
     display: block;
     padding: 1rem;

@@ -1,14 +1,13 @@
 <template>
   <li class="add-team row">
-    <a class="waves-effect waves-light btn" href="#" v-if="!addTeamPressed"
-                                                     @click="addTeamPressed = true">
-      Add team<i class="material-icons">add</i>
+    <a class="btn" href="#" v-if="!addTeamPressed"
+                            @click="addTeamPressed = true">
+      Add team
     </a>
     <span v-if="addTeamPressed">
-      <input class="white-text col s10" type="text" placeholder="Team name"
-                                                    v-model="teamName">
-      <a class="col s2 waves-effect waves-light btn" href="#"
-                                                     @click="onAddTeam">
+      <input class="col s10" type="text" placeholder="Team name"
+                                         v-model="teamName">
+      <a class="col s2 btn" href="#" @click="onAddTeam">
         <i class="material-icons">add</i>
       </a>
     </span>
@@ -32,7 +31,30 @@ export default class AddTeam extends Vue {
 </script>
 
 <style lang="scss">
+@use 'src/assets/theme.scss';
+
 li.add-team {
   margin: 1rem;
+
+  a.btn {
+    background: lighten(theme.$sidenav, 3%) !important;
+    color: theme.$text;
+    border: 2px solid theme.$text;
+    border-radius: 0.2rem;
+
+    i {
+      color: theme.$text;
+    }
+  }
+
+  a.btn:hover, a.btn:focus {
+    background: lighten(theme.$sidenav, 5%) !important;
+    color: theme.$text;
+  }
+
+  input, input:focus {
+    color: theme.$text;
+    border-color: theme.$text !important;
+  }
 }
 </style>

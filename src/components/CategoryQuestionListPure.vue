@@ -1,6 +1,6 @@
 <template>
   <ul class="question-list">
-    <li class="question blue white-text z-depth-1"
+    <li class="question z-depth-1"
       v-for="(q, i) in questions"
       :key="q.hint"
       @click="$emit('click-question', category, i)">{{ q.points }}</li>
@@ -19,11 +19,15 @@ export default class CategoryQuestionList extends Vue {
 </script>
 
 <style lang="scss">
+@use 'src/assets/theme';
+
 ul.question-list {
   margin: 0;
 }
 
 .question {
+  background: theme.$main;
+  color: theme.$text;
   display: block;
   padding: 1rem;
   margin: 0.4rem 0.2rem;

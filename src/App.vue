@@ -84,6 +84,8 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
+@use 'src/assets/theme';
+
 #app {
   padding-left: 300px;
 }

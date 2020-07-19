@@ -112,6 +112,8 @@ export default class Editor extends Vue {
 </script>
 
 <style lang="scss">
+@use 'src/assets/theme';
+
 div#app {
   display: flex;
   flex-direction: column;

@@ -3,7 +3,7 @@
     <div class="category center-align"
          v-for="category in Object.keys(questions)"
          :key="category">
-      <span class="header blue white-text z-depth-1">{{ category }}</span>
+      <span class="header z-depth-1">{{ category }}</span>
       <category-question-list :questions="questions[category]"
             @click-question="onClickQuestion"></category-question-list>
     </div>
@@ -73,6 +73,8 @@ export default class QuestionPanel extends Vue {
 </script>
 
 <style lang="scss">
+@use 'src/assets/theme';
+
 div.question-panel {
   margin-top: 1rem;
 
@@ -81,6 +83,8 @@ div.question-panel {
     width: 10rem;
 
     .header {
+      background: theme.$main;
+      color: theme.$text;
       display: block;
       padding: 1rem;
       margin: 0.4rem 0.2rem;

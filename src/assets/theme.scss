@@ -1,0 +1,52 @@
+/* Color Theme Swatches in RGBA */
+$background: #000000;
+$main: #0c41dc;
+$sidenav: lighten($main, 25%);
+$modal: desaturate($main, 50%);
+$disabled: desaturate($main, 80%);
+$danger: #DB4621;
+$affirm: #518F00;
+$text: #efefef;
+
+body {
+	background: $background;
+	color: $text;
+}
+
+.sidenav {
+	background: $sidenav;
+	color: $text;
+
+	button, button:hover, button:focus {
+		background: $danger;
+	}
+
+	button.danger-confirm {
+		background: $text;
+
+		i {
+			color: $danger;
+		}
+	}
+}
+
+.modal {
+	background: $modal;
+	color: $text;
+
+	input, textarea {
+		color: $text;
+		border: 1px solid $text !important;
+		padding: 1rem !important;
+	}
+
+	span, label {
+		padding: 1rem 0;
+	}
+
+	.modal-footer {
+		background: $modal;
+		border-top: 1px solid $disabled;
+	}
+}
+

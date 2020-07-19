@@ -19,8 +19,8 @@ export default class CategoryQuestionList extends Vue {
   // eslint-disable-next-line
   private questionClass(q: QuestionWithStatus): any {
     return {
-      blue: !q.seenAnswer,
-      grey: q.seenAnswer,
+      'theme-main': !q.seenAnswer,
+      'theme-disabled': q.seenAnswer,
       unanswered: !q.seenAnswer,
       answer: q.seenAnswer,
     };
@@ -29,6 +29,16 @@ export default class CategoryQuestionList extends Vue {
 </script>
 
 <style lang="scss">
+@use 'src/assets/theme';
+
+.theme-main {
+  background: theme.$main;
+}
+
+.theme-disabled {
+  background: theme.$disabled;
+}
+
 ul.question-list {
   margin: 0;
 }

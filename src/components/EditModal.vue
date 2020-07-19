@@ -57,17 +57,10 @@ div.jgrid {
   display: grid;
   grid-template-columns: 15% 85%;
   gap: 1rem 0.2rem;
-}
 
-textarea {
-  border: none;
-  border-bottom: 1px solid #9e9e9e;
-  transition: border .3s, box-shadow .3s;
-}
-
-textarea:focus {
-  border-bottom: 1px solid #26a69a;
-  box-shadow: 0 1px 0 0 #26a69a;
+  span {
+    align-self: center;
+  }
 }
 
 span#m-points {

@@ -1,13 +1,12 @@
 <template>
-  <ul class="sidenav sidenav-fixed blue">
-    <li class="center-align white-text">
+  <ul class="sidenav sidenav-fixed">
+    <li class="center-align">
       <h3>Scoreboard</h3>
     </li>
-    <li class="blue lighten-3 team" v-for="teamName in Object.keys(scores)"
+    <li class="team" v-for="teamName in Object.keys(scores)"
                                     :key="teamName">
-      <button :id="teamName"
-                                    class="waves-effect waves-light btn-floating btn-small"
-                                    @click="onRemove(teamName)">
+      <button :id="teamName" class="btn-floating btn-small"
+                             @click="onRemove(teamName)">
         <i class="material-icons">remove_circle</i>
       </button>
       <span class="name">{{ teamName }}</span>
@@ -40,14 +39,14 @@ export default class Scoreboard extends Vue {
     if (clickedOnce) {
       this.$emit('remove-team', name);
       this.focused.delete(name);
-      bt.classList.remove('red');
+      bt.classList.remove('danger-confirm');
     } else {
       this.focused.add(name);
-      bt.classList.add('red');
+      bt.classList.add('danger-confirm');
 
       setTimeout(() => {
         this.focused.delete(name);
-        bt.classList.remove('red');
+        bt.classList.remove('danger-confirm');
       }, 1000);
     }
   }
@@ -62,5 +61,13 @@ export default class Scoreboard extends Vue {
 <style scoped lang="scss">
 .team {
   padding-left: 1rem;
+}
+
+.sidenav button {
+  margin-right: 1rem;
+}
+
+.sidenav h3 {
+  text-shadow: 2px 2px 2px grey;
 }
 </style>

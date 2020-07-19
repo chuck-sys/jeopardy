@@ -1,10 +1,10 @@
 <template>
-  <div class="modal blue">
+  <div class="modal">
     <div class="modal-content">
-      <input type="text" class="white-text" v-model="categoryCopy"
+      <input type="text" v-model="categoryCopy"
         placeholder="Name of category">
     </div>
-    <div class="modal-footer blue darken-1">
+    <div class="modal-footer">
       <a class="waves-effect waves-green btn" href="#" @click="onSave">Save</a>
       <a class="waves-effect waves-light btn" href="#" @click="onCancel">Cancel</a>
       <a class="waves-effect waves-red btn" href="#" @click="onDelete"

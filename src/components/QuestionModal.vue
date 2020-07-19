@@ -1,6 +1,6 @@
 <template>
-  <div class="modal blue">
-    <div class="modal-content white-text">
+  <div class="modal">
+    <div class="modal-content">
       <span class="card-title">{{ question.points }}</span>
       <p v-html="question.hint"></p>
       <p v-if="showAnswer" v-html="question.answer"></p>
