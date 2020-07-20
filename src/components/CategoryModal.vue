@@ -1,14 +1,15 @@
 <template>
   <div class="modal">
-    <div class="modal-content">
-      <input type="text" v-model="categoryCopy"
+    <div class="category-fields modal-content">
+      <span id="m-category">Category:</span>
+      <input id="i-category" type="text" v-model="categoryCopy"
         placeholder="Name of category">
     </div>
     <div class="modal-footer">
-      <a class="waves-effect waves-green btn" href="#" @click="onSave">Save</a>
-      <a class="waves-effect waves-light btn" href="#" @click="onCancel">Cancel</a>
-      <a class="waves-effect waves-red btn" href="#" @click="onDelete"
-                                            :class="{red: clickDelete}">Delete</a>
+      <a class="danger waves-effect waves-red btn" href="#" @click="onDelete"
+                                            :class="{'danger-confirm': clickDelete}">Delete</a>
+      <a class="cancel waves-effect waves-light btn" href="#" @click="onCancel">Cancel</a>
+      <a class="affirm waves-effect waves-green btn" href="#" @click="onSave">Save</a>
     </div>
   </div>
 </template>
@@ -52,5 +53,18 @@ export default class CategoryModal extends Vue {
 div.modal div.modal-footer a.btn {
   margin-left: 0.2rem;
   margin-right: 0.2rem;
+}
+
+div.category-fields {
+  display: flex;
+  justify-content: space-evenly;
+
+  span#m-category {
+    margin-right: 0.5rem;
+  }
+
+  input#i-category {
+    height: unset;
+  }
 }
 </style>

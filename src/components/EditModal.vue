@@ -11,13 +11,14 @@
       </div>
     </div>
     <div class="modal-footer">
-      <a href="#" class="btn waves-effect waves-light" @click="$emit('cancel-focus')">Cancel</a>
-      <a href="#" class="btn waves-effect waves-green"
-                  @click="$emit('save-question')">Save</a>
       <a href="#"
-         class="btn waves-effect waves-red"
-         :class="{red: clickDelete, 'white-text': clickDelete}"
+         class="danger btn waves-effect waves-red"
+         :class="{'danger-confirm': clickDelete}"
          @click="onClickDelete">Delete</a>
+      <a href="#" class="cancel btn waves-effect waves-light"
+                  @click="$emit('cancel-focus')">Cancel</a>
+      <a href="#" class="affirm btn waves-effect waves-green"
+                  @click="$emit('save-question')">Save</a>
     </div>
   </div>
 </template>
