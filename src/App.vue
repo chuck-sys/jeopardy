@@ -56,9 +56,7 @@ export default class App extends Vue {
   private onAddScore(team: string, category: string, i: number) {
     if (i >= 0 && i < this.questions[category].length) {
       const q: QuestionWithStatus = this.questions[category][i];
-      console.log(typeof this.scores[team]);
-      console.log(typeof q.q.points);
-      this.$set(this.scores, team, this.scores[team] + q.q.points);
+      this.$set(this.scores, team, this.scores[team] + Number(q.q.points));
       q.answeredBy = team;
     }
   }

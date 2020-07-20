@@ -36,6 +36,7 @@ export default class Editor extends Vue {
 
   private onUpdateQuestion(i: number, q: Question) {
     const { category } = q;
+    q.points = Number(q.points);
     if (i === this.questions[category].length) {
       this.questions[category].push(q);
     } else {
