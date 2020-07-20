@@ -8,8 +8,6 @@
     <div class="main">
       <question-panel :questions="questions" :scores="scores"
         @add-score="onAddScore" @view-answer="onViewAnswer"></question-panel>
-      <input id="i-file" type="file" @change="onUploadFile($event)"
-                         accept="application/json">
     </div>
 
     <div class="fixed-action-btn">
@@ -29,7 +27,7 @@ import { Ref, Component, Vue } from 'vue-property-decorator';
 import M from 'materialize-css';
 
 import {
-  getQuestions, setQuestions, getTeams, setTeams, Scores,
+  getQuestions, getTeams, setTeams, Scores,
 } from './Storage';
 import {
   QuestionWithStatus, questionsMakeStatus, QuestionsWithStatus,
@@ -51,19 +49,6 @@ export default class App extends Vue {
   private onPulloutScoreboard() {
     const instance = M.Sidenav.init(this.scoreboard.$el, {});
     instance.open();
-  }
-
-  private onUploadFile(evt: Event) {
-    const reader = new FileReader();
-    reader.onload = (e: Event) => {
-      const { result } = e.target as any;
-      const questions = JSON.parse(result);
-
-      this.questions = questionsMakeStatus(questions);
-      setQuestions(questions);
-    };
-
-    reader.readAsText((evt.target as any).files[0]);
   }
 
   private onAddScore(team: string, category: string, i: number) {
