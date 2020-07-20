@@ -1,8 +1,10 @@
 <template>
-  <div id="app" class="container">
+  <div id="app">
     <scoreboard :scores="scores"
-      @add-team="onAddTeam"
-      @remove-team="onRemoveTeam"></scoreboard>
+       id="scoreboard"
+       ref="scoreboard"
+       @add-team="onAddTeam"
+       @remove-team="onRemoveTeam"></scoreboard>
     <div class="main">
       <question-panel :questions="questions" :scores="scores"
         @add-score="onAddScore" @view-answer="onViewAnswer"></question-panel>
@@ -15,11 +17,16 @@
         <i class="material-icons">mode_edit</i>
       </a>
     </div>
+
+    <a class="pulltab danger" href="#" @click="onPulloutScoreboard">
+      Scoreboard
+    </a>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Ref, Component, Vue } from 'vue-property-decorator';
+import M from 'materialize-css';
 
 import {
   getQuestions, setQuestions, getTeams, setTeams, Scores,
@@ -37,8 +44,14 @@ import QuestionPanel from './components/QuestionPanel.vue';
   },
 })
 export default class App extends Vue {
+  @Ref() private scoreboard!: Vue;
   private scores: Scores = getTeams();
   private questions: QuestionsWithStatus = questionsMakeStatus(getQuestions());
+
+  private onPulloutScoreboard() {
+    const instance = M.Sidenav.init(this.scoreboard.$el, {});
+    instance.open();
+  }
 
   private onUploadFile(evt: Event) {
     const reader = new FileReader();
@@ -87,7 +100,8 @@ export default class App extends Vue {
 @use 'src/assets/theme';
 
 #app {
-  padding-left: 300px;
+  font-size: 18px;
+  margin: 1rem;
 }
 
 div.main {
@@ -98,5 +112,21 @@ div.main {
 
 input#i-file {
   margin-top: 2rem;
+}
+
+a.pulltab {
+  position: absolute;
+  width: 10rem;
+  text-align: right;
+  left: -8rem;
+  top: 50vh;
+  padding: 0.5rem 3rem 0.5rem 0;
+  border-radius: 0 1rem 1rem 0;
+
+  transition: left 0.3s;
+
+  &:hover {
+    left: 0;
+  }
 }
 </style>

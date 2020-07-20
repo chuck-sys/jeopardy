@@ -13,13 +13,48 @@ body {
 	color: $text;
 }
 
+.danger {
+	background: $danger;
+	color: $text;
+}
+
+.danger:hover, .danger:focus {
+	background: lighten($danger, 5%);
+	color: $text;
+}
+
+.danger.danger-confirm {
+	background: $text;
+	color: $danger;
+}
+
+.danger.danger-confirm:hover, .danger.danger-confirm:focus {
+	background: darken($text, 5%);
+}
+
+.cancel {
+	background: lighten($modal, 5%);;
+	color: $text;
+}
+
+.cancel:hover, .cancel:focus {
+	background: lighten($modal, 9%) !important;
+	color: $text;
+}
+
+.affirm {
+	background: $affirm;
+	color: $text;
+}
+
+.affirm:hover, .affirm:focus {
+	background: lighten($affirm, 5%);
+	color: $text;
+}
+
 .sidenav {
 	background: $sidenav;
 	color: $text;
-
-	button, button:hover, button:focus {
-		background: $danger;
-	}
 
 	button.danger-confirm {
 		background: $text;
@@ -56,44 +91,11 @@ body {
 
 	.danger {
 		float: left;
-		background: $danger;
-		color: $text;
-	}
-
-	.danger:hover, .danger:focus {
-		background: lighten($danger, 5%);
-		color: $text;
-	}
-
-	.danger.danger-confirm {
-		background: $text;
-		color: $danger;
-	}
-
-	.danger.danger-confirm:hover, .danger.danger-confirm:focus {
-		background: darken($text, 5%);
 	}
 
 	.cancel {
-		background: lighten($modal, 5%);;
-		color: $text;
 		border: 1px solid $text;
 		border-radius: 0.2rem;
-	}
-
-	.cancel:hover, .cancel:focus {
-		background: lighten($modal, 9%) !important;
-		color: $text;
-	}
-
-	.affirm {
-		background: $affirm;
-		color: $text;
-	}
-
-	.affirm:hover, .affirm:focus {
-		background: lighten($affirm, 5%);
-		color: $text;
 	}
 }
 

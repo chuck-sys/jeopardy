@@ -1,20 +1,20 @@
 <template>
-  <ul class="sidenav sidenav-fixed">
-    <li class="center-align">
-      <h3>Scoreboard</h3>
-    </li>
-    <li class="team" v-for="teamName in Object.keys(scores)"
-                                    :key="teamName">
-      <button :id="teamName" class="btn-floating btn-small"
-                             @click="onRemove(teamName)">
-        <i class="material-icons">remove_circle</i>
-      </button>
-      <span class="name">{{ teamName }}</span>
-      <span class="badge">{{ scores[teamName] }}</span>
-    </li>
+    <ul class="sidenav">
+      <li class="center-align">
+        <h3>Scoreboard</h3>
+      </li>
+      <li class="team" v-for="teamName in Object.keys(scores)"
+                                      :key="teamName">
+        <button :id="teamName" class="danger btn-floating btn-small"
+                               @click="onRemove(teamName)">
+          <i class="material-icons">remove_circle</i>
+        </button>
+        <span class="name">{{ teamName }}</span>
+        <span class="badge">{{ scores[teamName] }}</span>
+      </li>
 
-    <add-team @add-team="onAddTeam"></add-team>
-  </ul>
+      <add-team @add-team="onAddTeam"></add-team>
+    </ul>
 </template>
 
 <script lang="ts">
