@@ -10,12 +10,14 @@
             :category="category"
             @click-question="onClickQuestion"></category-question-list-pure>
       <span class="add-question z-depth-1"
+            :class="addQuestionClass(category)"
             @click="onAddQuestion(category)">
         <i class="material-icons">add</i>
         Add Question
       </span>
     </div>
     <div class="z-depth-1 add-category"
+         :class="{pulse: Object.keys(questions).length === 0}"
          @click="onAddCategory">
       <i class="material-icons">add</i>
       <span>Add Category</span>
@@ -59,6 +61,13 @@ export default class EditorPanel extends Vue {
 
   private clickIndex = -1;
   private questionClone = emptyQuestion('');
+
+  private addQuestionClass(category: string) {
+    return {
+      pulse: this.questions[category]
+      && Object.keys(this.questions[category]).length === 0,
+    };
+  }
 
   private onSaveCategory(oldCategory: string, newCategory: string) {
     if (oldCategory === '') {

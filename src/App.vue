@@ -11,14 +11,15 @@
     </div>
 
     <div class="fixed-action-btn">
-      <a class="btn-floating btn-large red"
+      <a class="btn-floating btn-large danger"
          :class="{pulse: Object.keys(questions).length === 0}"
          href="editor.html">
         <i class="material-icons">mode_edit</i>
       </a>
     </div>
 
-    <a class="pulltab danger" href="#" @click="onPulloutScoreboard">
+    <a class="pulltab danger" href="#" @click="onPulloutScoreboard"
+                              :class="pulltabClass()">
       Scoreboard
     </a>
 
@@ -88,6 +89,13 @@ export default class App extends Vue {
       const q: QuestionWithStatus = this.questions[category][i];
       q.seenAnswer = true;
     }
+  }
+
+  private pulltabClass() {
+    return {
+      pulse: Object.keys(this.questions).length > 0
+      && Object.keys(this.scores).length === 0,
+    };
   }
 }
 </script>

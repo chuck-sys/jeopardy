@@ -7,6 +7,9 @@
       <category-question-list :questions="questions[category]"
             @click-question="onClickQuestion"></category-question-list>
     </div>
+    <p v-if="Object.keys(questions).length === 0">
+    It looks like there aren't any questions yet. Try adding some via edit mode!
+    </p>
     <question-modal
             :showAnswer="showAnswer"
             ref="questionModal"
