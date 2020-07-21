@@ -19,6 +19,8 @@
     <a class="pulltab danger" href="#" @click="onPulloutScoreboard">
       Scoreboard
     </a>
+
+    <scoring-toast :scores="scores" ref="scoringToast"></scoring-toast>
   </div>
 </template>
 
@@ -34,15 +36,19 @@ import {
 } from './question';
 import Scoreboard from './components/Scoreboard.vue';
 import QuestionPanel from './components/QuestionPanel.vue';
+import ScoringToast from './components/ScoringToast.vue';
 
 @Component({
   components: {
     Scoreboard,
     QuestionPanel,
+    ScoringToast,
   },
 })
 export default class App extends Vue {
-  @Ref() private scoreboard!: Vue;
+  @Ref() private scoreboard!: Scoreboard;
+  @Ref() private scoringToast!: ScoringToast;
+
   private scores: Scores = getTeams();
   private questions: QuestionsWithStatus = questionsMakeStatus(getQuestions());
 
@@ -54,8 +60,11 @@ export default class App extends Vue {
   private onAddScore(team: string, category: string, i: number) {
     if (i >= 0 && i < this.questions[category].length) {
       const q: QuestionWithStatus = this.questions[category][i];
+      this.scoringToast.init(team, this.scores[team], Number(q.q.points));
       this.$set(this.scores, team, this.scores[team] + Number(q.q.points));
       q.answeredBy = team;
+
+      this.scoringToast.display();
     }
   }
 
