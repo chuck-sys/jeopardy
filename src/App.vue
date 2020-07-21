@@ -11,7 +11,9 @@
     </div>
 
     <div class="fixed-action-btn">
-      <a class="btn-floating btn-large red" href="editor.html">
+      <a class="btn-floating btn-large red"
+         :class="{pulse: Object.keys(questions).length === 0}"
+         href="editor.html">
         <i class="material-icons">mode_edit</i>
       </a>
     </div>
