@@ -31,7 +31,7 @@ If you are contributing code, the recommended workflow is as follows:
 yarn serve			# starts up dev server (it lints on save)
 
 # In another window:
-$EDITOR src/App.vue	# start hacking
+$EDITOR src/App.vue		# start hacking
 yarn test			# make sure tests pass
 ```
 
