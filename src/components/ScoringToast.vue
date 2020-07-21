@@ -149,6 +149,8 @@ export default class ScoringToast extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@use 'src/assets/theme.scss';
+
 .scoring-toast {
   position: fixed;
   right: 1rem;
@@ -159,17 +161,18 @@ export default class ScoringToast extends Vue {
     position: absolute;
     width: 100%;
     transition: top 0.3s;
+    background: rgba(theme.$disabled, 90%);
 
     &:nth-child(1) {
       top: 1.5rem;
     }
 
     &:nth-child(2) {
-      top: 3rem;
+      top: 4.5rem;
     }
 
     &:nth-child(3) {
-      top: 4.5rem;
+      top: 7.5rem;
     }
   }
 }
@@ -179,6 +182,6 @@ export default class ScoringToast extends Vue {
 }
 
 .scoring-toast .team-toast.bubble-down {
-  top: 3rem;
+  top: 4.5rem;
 }
 </style>
