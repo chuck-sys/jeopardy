@@ -15,11 +15,11 @@
         Add Question
       </span>
     </div>
-    <span class="z-depth-1 add-category"
-          @click="onAddCategory">
+    <div class="z-depth-1 add-category"
+         @click="onAddCategory">
       <i class="material-icons">add</i>
       <span>Add Category</span>
-    </span>
+    </div>
 
     <edit-modal
       ref="editModal"
@@ -129,10 +129,13 @@ export default class EditorPanel extends Vue {
 
 div.editor-panel {
   margin-top: 1rem;
+  overflow-x: auto;
+  white-space: nowrap;
 
   .category {
-    float: left;
+    display: inline-block;
     width: 10rem;
+    vertical-align: top;
 
     .header, .add-question {
       background: theme.$main;
@@ -145,10 +148,9 @@ div.editor-panel {
   }
 
   .add-category {
+    display: inline-block;
     background: theme.$main;
     color: theme.$text;
-    float: left;
-    display: block;
     padding: 1rem;
     width: 10rem;
     margin: 0.4rem 0.2rem;

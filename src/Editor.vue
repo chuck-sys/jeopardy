@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="container">
+  <div id="app">
     <editor-panel :questions="questions"
       @update-question="onUpdateQuestion"
       @delete-question="onDeleteQuestion"

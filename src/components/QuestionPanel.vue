@@ -77,10 +77,13 @@ export default class QuestionPanel extends Vue {
 
 div.question-panel {
   margin-top: 1rem;
+  overflow-x: auto;
+  white-space: nowrap;
 
   .category {
-    float: left;
+    display: inline-block;
     width: 10rem;
+    vertical-align: top;
 
     .header {
       background: theme.$main;
@@ -88,8 +91,10 @@ div.question-panel {
       display: block;
       padding: 1rem;
       margin: 0.4rem 0.2rem;
+      cursor: pointer;
     }
   }
+
 }
 
 ul.question-list {
