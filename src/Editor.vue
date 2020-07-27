@@ -67,6 +67,7 @@ export default class Editor extends Vue {
     if (i >= 0 && i < this.questions[category].length) {
       this.$delete(this.questions[category], i);
       setQuestions(this.questions);
+      T.deleteQuestion();
     }
   }
 
@@ -82,6 +83,7 @@ export default class Editor extends Vue {
     this.$set(this.questions, newCategory, oldQuestions);
     this.$delete(this.questions, oldCategory);
     setQuestions(this.questions);
+    T.updateCategory();
   }
 
   private onAddCategory(category: string) {
@@ -92,6 +94,7 @@ export default class Editor extends Vue {
   private onDeleteCategory(category: string) {
     this.$delete(this.questions, category);
     setQuestions(this.questions);
+    T.deleteCategory(category);
   }
 
   private onUploadFile(evt: Event) {
@@ -101,6 +104,7 @@ export default class Editor extends Vue {
       const questions = JSON.parse(result);
       this.questions = questions;
       setQuestions(this.questions);
+      T.uploadFile();
     };
 
     reader.readAsText((evt.target as any).files[0]);
