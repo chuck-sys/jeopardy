@@ -1,20 +1,15 @@
 <template>
   <div id="app">
     <editor-panel :questions="questions"
-      @update-question="onUpdateQuestion"
-      @delete-question="onDeleteQuestion"
-      @rename-category="onRenameCategory"
-      @add-category="onAddCategory"
-      @delete-category="onDeleteCategory"></editor-panel>
+       @update-question="onUpdateQuestion"
+       @delete-question="onDeleteQuestion"
+       @rename-category="onRenameCategory"
+       @add-category="onAddCategory"
+       @delete-category="onDeleteCategory"></editor-panel>
     <control-panel class="control-panel"
-      @download-file="onDownloadFile"
-      @upload-file="onUploadFile"></control-panel>
-
-    <div class="fixed-action-btn">
-      <a class="btn-floating btn-large red" href="index.html">
-        <i class="material-icons">play_arrow</i>
-      </a>
-    </div>
+                   @delete-all="onDeleteAll"
+                   @download-file="onDownloadFile"
+                   @upload-file="onUploadFile"></control-panel>
   </div>
 </template>
 
@@ -24,6 +19,7 @@ import { Question, Questions } from './question';
 import { getQuestions, setQuestions } from './Storage';
 import ControlPanel from './components/ControlPanel.vue';
 import EditorPanel from './components/EditorPanel.vue';
+import T from './Toaster';
 
 @Component({
   components: {
@@ -33,6 +29,24 @@ import EditorPanel from './components/EditorPanel.vue';
 })
 export default class Editor extends Vue {
   private questions: Questions = getQuestions();
+  private hasPermanentlyDeletedBefore = false;
+
+  private onDeleteAll() {
+    // We appear to delete everything here, but we don't actually save the
+    // empty question set into local storage until AFTER you make a change, or
+    // unless you press the "delete all" button again.
+    if (Object.keys(this.questions).length === 0) {
+      setQuestions(this.questions);
+      T.permanentDelete();
+      this.hasPermanentlyDeletedBefore = true;
+    } else {
+      this.questions = {};
+
+      if (!this.hasPermanentlyDeletedBefore) {
+        T.deleteOnceNotPermanent();
+      }
+    }
+  }
 
   private onUpdateQuestion(i: number, q: Question) {
     const { category } = q;

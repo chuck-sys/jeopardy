@@ -137,9 +137,11 @@ export default class EditorPanel extends Vue {
 @use 'src/assets/theme.scss';
 
 div.editor-panel {
-  margin-top: 1rem;
+  margin: 1rem;
   overflow-x: auto;
   white-space: nowrap;
+  min-height: 10rem;
+  border-bottom: 1px solid theme.$disabled;
 
   .category {
     display: inline-block;

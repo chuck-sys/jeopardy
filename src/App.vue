@@ -114,6 +114,11 @@ div.main {
   align-content: center;
 }
 
+div.fixed-action-btn {
+  left: 23px;
+  right: unset;
+}
+
 input#i-file {
   margin-top: 2rem;
 }

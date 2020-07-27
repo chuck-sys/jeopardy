@@ -1,30 +1,53 @@
 <template>
-  <div>
-    <input type="file" @change="$emit('upload-file', $event)"
-           accept="application/json">
+  <div class="control-panel">
+    <div>
+      <h5>Upload file</h5>
+      <input type="file" @change="$emit('upload-file', $event)"
+             accept="application/json">
+    </div>
     <div class="right-pane">
-      <p>Control panel</p>
-      <a class="waves-effect waves-light btn" href="#"
-                @click="$emit('download-file')">
-        <i class="material-icons">cloud_download</i>
+      <a class="waves-effect waves-light btn affirm" href="#"
+                                                     @click="$emit('download-file')">
         Download
+      </a>
+      <a class="waves-effect waves-light btn affirm" href="index.html">
+        Play!
+      </a>
+      <a class="waves-effect waves-light btn danger" href="#"
+        @click="deleteAll" :class="{'danger-confirm': clickDelete}">
+        Delete all
       </a>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { Vue } from 'vue-property-decorator';
+<script scoped lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
 
+@Component
 export default class ControlPanel extends Vue {
+  private clickDelete = false;
+
+  private deleteAll() {
+    if (this.clickDelete) {
+      this.$emit('delete-all');
+    } else {
+      this.clickDelete = true;
+      setTimeout(() => {
+        this.clickDelete = false;
+      }, 1000);
+    }
+  }
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
+@use 'src/assets/theme.scss';
+
 div.control-panel {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-content: center;
 
   .right-pane {
@@ -32,6 +55,15 @@ div.control-panel {
     flex-direction: column;
     justify-content: space-between;
     align-content: center;
+
+    a {
+      margin: 0.2rem;
+      width: 8rem;
+    }
+
+    a.danger {
+      margin-top: 6rem;
+    }
   }
 }
 </style>
