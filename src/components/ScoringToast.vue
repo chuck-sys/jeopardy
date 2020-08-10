@@ -27,6 +27,11 @@ import {
 import { Scores } from '../Storage';
 import TeamToast from './TeamToast.vue';
 
+function cosineInterp(start: number, end: number, percent: number): number {
+  const mu = (1 - Math.cos(percent * Math.PI)) / 2;
+  return start * (1 - mu) + end * mu;
+}
+
 @Component({
   components: {
     TeamToast,
@@ -104,18 +109,15 @@ export default class ScoringToast extends Vue {
     setTimeout(() => {
       if (this.timeCount < this.deltaIncrement) {
         // In the state of incrementing, do linear increments
-        const inc = this.pointsAdded / (this.deltaIncrement / this.interval);
-        this.focusedPoints += inc;
-        if (this.focusedPoints > this.focusedTeamOriginalPoints + this.pointsAdded) {
-          this.focusedPoints = this.focusedTeamOriginalPoints + this.pointsAdded;
-        }
+        const percent = (this.timeCount - this.deltaStaticBefore) / this.deltaIncrement;
+        this.focusedPoints = cosineInterp(
+          this.focusedTeamOriginalPoints,
+          this.focusedTeamOriginalPoints + this.pointsAdded,
+          percent,
+        );
       } else if (this.timeCount < this.deltaSwap) {
         // In the state of swapping, if needed
-        if (this.focusedPoints < this.focusedTeamOriginalPoints
-          + this.pointsAdded) {
-          this.focusedPoints = this.focusedTeamOriginalPoints
-            + this.pointsAdded;
-        }
+        this.focusedPoints = this.focusedTeamOriginalPoints + this.pointsAdded;
         if (this.rankingWentUp
           && !this.focusedElem.$el.classList.contains('bubble-up')) {
           this.focusedElem.$el.classList.add('bubble-up');
