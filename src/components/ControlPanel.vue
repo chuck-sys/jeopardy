@@ -6,17 +6,31 @@
              accept="application/json">
     </div>
     <div class="right-pane">
-      <a class="waves-effect waves-light btn affirm" href="#"
-                                                     @click="$emit('download-file')">
-        Download
-      </a>
-      <a class="waves-effect waves-light btn affirm" href="index.html">
-        Play!
-      </a>
-      <a class="waves-effect waves-light btn danger" href="#"
-        @click="deleteAll" :class="{'danger-confirm': clickDelete}">
-        Delete all
-      </a>
+      <div class="affirmative-actions">
+        <a class="btn affirm" href="#"
+                              title="Download a copy as a backup"
+                              @click="$emit('download-file')">
+          Download
+        </a>
+        <a class="btn affirm" href="index.html">
+          Play
+        </a>
+      </div>
+      <div class="dangerous-actions">
+        <a class="btn danger" href="#" title="Resets question answered status"
+          @click="$emit('reset-questions')">
+          Reset questions
+        </a>
+        <a class="btn danger" href="#" title="Resets team scores to zero"
+          @click="$emit('reset-scores')">
+          Reset scores
+        </a>
+        <a class="btn danger" href="#"
+                              title="Deletes all questions"
+                              @click="deleteAll" :class="{'danger-confirm': clickDelete}">
+          Delete questions
+        </a>
+      </div>
     </div>
   </div>
 </template>
@@ -57,11 +71,15 @@ div.control-panel {
     align-content: center;
 
     a {
-      margin: 0.2rem;
-      width: 8rem;
+      margin: 0.2rem auto;
+      width: 100%;
     }
 
-    a.danger {
+    div.dangerous-actions {
+      display: flex;
+      flex-direction: column;
+      align-content: center;
+      justify-content: center;
       margin-top: 6rem;
     }
   }

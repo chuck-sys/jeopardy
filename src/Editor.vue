@@ -7,6 +7,8 @@
        @add-category="onAddCategory"
        @delete-category="onDeleteCategory"></editor-panel>
     <control-panel class="control-panel"
+                   @reset-questions="onResetQuestions"
+                   @reset-scores="onResetScores"
                    @delete-all="onDeleteAll"
                    @download-file="onDownloadFile"
                    @upload-file="onUploadFile"></control-panel>
@@ -16,7 +18,9 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Question, Questions } from './question';
-import { getQuestions, setQuestions } from './Storage';
+import {
+  getQuestions, setQuestions, getTeams, setTeams, Scores,
+} from './Storage';
 import ControlPanel from './components/ControlPanel.vue';
 import EditorPanel from './components/EditorPanel.vue';
 import T from './Toaster';
@@ -30,6 +34,28 @@ import T from './Toaster';
 export default class Editor extends Vue {
   private questions: Questions = getQuestions();
   private hasPermanentlyDeletedBefore = false;
+
+  // eslint-disable-next-line
+  private onResetScores() {
+    const teams: Scores = getTeams();
+    Object.keys(teams).forEach((teamName) => {
+      teams[teamName] = 0;
+    });
+    setTeams(teams);
+    T.resetAllTeamScores();
+  }
+
+  private onResetQuestions() {
+    const categories = Object.keys(this.questions);
+    categories.forEach((cat) => {
+      this.questions[cat].forEach((q) => {
+        q.answeredBy = '';
+        q.seenAnswer = false;
+      });
+    });
+    setQuestions(this.questions);
+    T.resetAllQuestions();
+  }
 
   private onDeleteAll() {
     // We appear to delete everything here, but we don't actually save the

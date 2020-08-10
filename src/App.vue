@@ -32,11 +32,9 @@ import { Ref, Component, Vue } from 'vue-property-decorator';
 import M from 'materialize-css';
 
 import {
-  getQuestions, getTeams, setTeams, Scores,
+  getQuestions, getTeams, setTeams, Scores, setQuestions,
 } from './Storage';
-import {
-  QuestionWithStatus, questionsMakeStatus, QuestionsWithStatus,
-} from './question';
+import { Questions } from './question';
 import Scoreboard from './components/Scoreboard.vue';
 import QuestionPanel from './components/QuestionPanel.vue';
 import ScoringToast from './components/ScoringToast.vue';
@@ -53,7 +51,7 @@ export default class App extends Vue {
   @Ref() private scoringToast!: ScoringToast;
 
   private scores: Scores = getTeams();
-  private questions: QuestionsWithStatus = questionsMakeStatus(getQuestions());
+  private questions: Questions = getQuestions();
 
   private onPulloutScoreboard() {
     const instance = M.Sidenav.init(this.scoreboard.$el, {});
@@ -62,13 +60,14 @@ export default class App extends Vue {
 
   private onAddScore(team: string, category: string, i: number) {
     if (i >= 0 && i < this.questions[category].length) {
-      const q: QuestionWithStatus = this.questions[category][i];
-      this.scoringToast.init(team, this.scores[team], Number(q.q.points));
-      this.$set(this.scores, team, this.scores[team] + Number(q.q.points));
+      const q = this.questions[category][i];
+      this.scoringToast.init(team, this.scores[team], Number(q.points));
+      this.$set(this.scores, team, this.scores[team] + Number(q.points));
       q.answeredBy = team;
 
       this.scoringToast.display();
       setTeams(this.scores);
+      setQuestions(this.questions);
     }
   }
 
@@ -87,8 +86,10 @@ export default class App extends Vue {
 
   private onViewAnswer(category: string, i: number) {
     if (i >= 0 && i < this.questions[category].length) {
-      const q: QuestionWithStatus = this.questions[category][i];
-      q.seenAnswer = true;
+      this.$set(this.questions[category][i], 'seenAnswer', true);
+      setQuestions(this.questions);
+      // const q = this.questions[category][i];
+      // q.seenAnswer = true;
     }
   }
 

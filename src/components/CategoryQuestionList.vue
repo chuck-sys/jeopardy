@@ -2,22 +2,23 @@
   <ul class="question-list">
     <li class="question white-text z-depth-1"
       v-for="(q, i) in questions"
-      :class="questionClass(q)"
-      :key="q.q.hint"
-      @click="$emit('click-question', q.q.category, i)">{{ q.q.points }}</li>
+      :class="{'theme-main': !q.seenAnswer, 'theme-disabled': q.seenAnswer,
+              'unanswered': !q.seenAnswer, 'answer': q.seenAnswer}"
+      :key="q.hint"
+      @click="$emit('click-question', q.category, i)">{{ q.points }}</li>
   </ul>
 </template>
 
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator';
-import { QuestionWithStatus } from '../question';
+import { Question } from '../question';
 
 @Component
 export default class CategoryQuestionList extends Vue {
-  @Prop() private questions!: Array<QuestionWithStatus>;
+  @Prop() private questions!: Array<Question>;
 
   // eslint-disable-next-line
-  private questionClass(q: QuestionWithStatus): any {
+  private questionClass(q: Question): any {
     return {
       'theme-main': !q.seenAnswer,
       'theme-disabled': q.seenAnswer,

@@ -40,4 +40,12 @@ export default class Toaster {
   public static uploadFile() {
     Toaster.short('Contents of file read successfully.');
   }
+
+  public static resetAllQuestions() {
+    Toaster.short('All questions\' statuses are reset.');
+  }
+
+  public static resetAllTeamScores() {
+    Toaster.short('All teams\' scores reset to zero (0).');
+  }
 }

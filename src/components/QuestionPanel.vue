@@ -26,7 +26,7 @@ import {
 
 import { Scores } from '../Storage';
 import { openModal, closeModal } from '../ModalHelpers';
-import { emptyQuestion, QuestionsWithStatus } from '../question';
+import { emptyQuestion, Questions } from '../question';
 import CategoryQuestionList from './CategoryQuestionList.vue';
 import QuestionModal from './QuestionModal.vue';
 
@@ -38,7 +38,7 @@ import QuestionModal from './QuestionModal.vue';
 })
 export default class QuestionPanel extends Vue {
   @Ref() private questionModal!: QuestionModal;
-  @Prop() private readonly questions!: QuestionsWithStatus;
+  @Prop() private readonly questions!: Questions;
   @Prop() private readonly scores!: Scores;
 
   private questionClicked = emptyQuestion('');
@@ -51,7 +51,7 @@ export default class QuestionPanel extends Vue {
       return;
     }
 
-    this.questionClicked = q.q;
+    this.questionClicked = q;
     this.clickIndex = i;
 
     this.questionModal.init(Object.keys(this.scores), this.questionClicked);

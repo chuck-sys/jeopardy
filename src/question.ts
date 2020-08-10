@@ -3,25 +3,10 @@ export interface Question {
   points: number;
   category: string;
   answer: string;
-}
-
-export interface QuestionWithStatus {
-  q: Question;
   answeredBy: string;
   seenAnswer: boolean;
 }
-
-export function addStatus(q: Question): QuestionWithStatus {
-  return {
-    q,
-    answeredBy: '',
-    seenAnswer: false,
-  };
-}
-
-export function mapAddStatus(qs: Array<Question>): Array<QuestionWithStatus> {
-  return qs.map(addStatus);
-}
+export type Questions = {[key: string]: Question[]};
 
 export function emptyQuestion(category: string): Question {
   return {
@@ -29,6 +14,8 @@ export function emptyQuestion(category: string): Question {
     points: 100,
     category,
     answer: '',
+    answeredBy: '',
+    seenAnswer: false,
   };
 }
 
@@ -38,26 +25,7 @@ export function copy(q: Question): Question {
     points: q.points,
     category: q.category,
     answer: q.answer,
+    answeredBy: q.answeredBy,
+    seenAnswer: q.seenAnswer,
   };
-}
-
-export type Questions = {[key: string]: Question[]};
-export type QuestionsWithStatus = {[key: string]: QuestionWithStatus[]}
-
-export function questionsMakeStatus(qs: Questions): QuestionsWithStatus {
-  const ret: QuestionsWithStatus = {};
-  Object.keys(qs).forEach((category: string) => {
-    ret[category] = mapAddStatus(qs[category]);
-  });
-
-  return ret;
-}
-
-export function statusMakeQuestions(qs: QuestionsWithStatus): Questions {
-  const ret: Questions = {};
-  Object.keys(qs).forEach((category: string) => {
-    ret[category] = qs[category].map((q: QuestionWithStatus) => q.q);
-  });
-
-  return ret;
 }
