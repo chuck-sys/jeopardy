@@ -11,27 +11,9 @@ describe('Question functions', () => {
       points: 350,
       category: 'Random Questions',
       answer: 'An answer too great for your eyes to comprehend',
+      answeredBy: 'team trees',
+      seenAnswer: true,
     };
-  });
-
-  describe('#addStatus()', () => {
-    it('references the same question', () => {
-      const qStatus = Q.addStatus(q);
-      q.hint = 'rando';
-
-      expect(qStatus.q.hint).to.eq('rando');
-    });
-  });
-
-  describe('#emptyQuestion()', () => {
-    it('creates new questions and doesn\'t use the same empty question', () => {
-      const e0 = Q.emptyQuestion('');
-      const e1 = Q.emptyQuestion('');
-
-      e0.hint = 'hello world';
-
-      expect(e1.hint).to.not.eq('hello world');
-    });
   });
 
   describe('#copy()', () => {
@@ -42,6 +24,8 @@ describe('Question functions', () => {
       expect(q2.points).to.eq(q.points);
       expect(q2.category).to.eq(q.category);
       expect(q2.answer).to.eq(q.answer);
+      expect(q2.answeredBy).to.eq(q.answeredBy);
+      expect(q2.seenAnswer).to.eq(q.seenAnswer);
     });
 
     it('doesn\'t reference the same question', () => {
