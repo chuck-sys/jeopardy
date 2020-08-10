@@ -68,6 +68,7 @@ export default class App extends Vue {
       q.answeredBy = team;
 
       this.scoringToast.display();
+      setTeams(this.scores);
     }
   }
 

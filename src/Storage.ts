@@ -21,14 +21,13 @@ export function getTeams(): Scores {
     return {};
   }
   const teams = JSON.parse(s);
-  const scores: Scores = {};
-  teams.forEach((team: string) => {
-    scores[team] = 0;
-  });
-  return scores;
+  if (Array.isArray(teams)) {
+    return {};
+  }
+  return teams;
 }
 
 export function setTeams(teams: Scores) {
-  const s = JSON.stringify(Object.keys(teams));
+  const s = JSON.stringify(teams);
   localStorage.setItem('teams', s);
 }
