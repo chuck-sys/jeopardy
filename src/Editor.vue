@@ -12,6 +12,14 @@
                    @delete-all="onDeleteAll"
                    @download-file="onDownloadFile"
                    @upload-file="onUploadFile"></control-panel>
+
+    <footer>
+      <div class="footer-content">
+        <a href="about.html">About Jeopardy</a> .
+        <a href="https://gitlab.com/chucksys/jeopardy-vue/">Code</a> .
+        <a href="#">Help</a>
+      </div>
+    </footer>
   </div>
 </template>
 
@@ -156,7 +164,7 @@ export default class Editor extends Vue {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 @use 'src/assets/theme';
 
 div#app {
@@ -164,5 +172,20 @@ div#app {
   flex-direction: column;
   justify-content: space-between;
   align-content: center;
+}
+
+footer {
+  margin: 3rem auto 1rem auto;
+
+  .footer-content {
+    text-align: center;
+    color: theme.$text;
+
+    a, a:hover, a:focus, a:visited {
+      margin: auto 0.5rem;
+      color: darken(theme.$text, 10%);
+      text-decoration: underline;
+    }
+  }
 }
 </style>
