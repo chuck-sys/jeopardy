@@ -17,7 +17,7 @@
       <div class="footer-content">
         <a href="about.html">About Jeopardy</a> .
         <a href="https://gitlab.com/chucksys/jeopardy-vue/">Code</a> .
-        <a href="#">Help</a>
+        <a href="https://youtu.be/RnRrs5neEMo">Help</a>
       </div>
     </footer>
   </div>
