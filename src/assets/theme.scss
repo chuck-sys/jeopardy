@@ -7,10 +7,15 @@ $disabled: desaturate($main, 80%);
 $danger: #DB4621;
 $affirm: #518F00;
 $text: #efefef;
+$text-inconspicuous: darken($text, 25%);
 
 body {
 	background: $background;
 	color: $text;
+}
+
+.inconspicuous-text {
+	color: $text-inconspicuous;
 }
 
 .danger {

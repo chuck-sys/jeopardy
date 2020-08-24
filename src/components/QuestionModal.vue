@@ -1,9 +1,16 @@
 <template>
   <div class="modal">
     <div class="modal-content">
-      <span class="card-title">{{ question.points }}</span>
+      <span class="card-title">
+        [ {{ question.points }} {{ question.points === 1 ? "Point" : "Points" }} ]
+      </span>
+      <hr>
       <p v-html="question.hint"></p>
-      <p v-if="showAnswer" v-html="question.answer"></p>
+      <div v-if="showAnswer">
+        <hr>
+        <strong class="inconspicuous-text">Answer</strong>
+        <p v-html="question.answer"></p>
+      </div>
     </div>
     <div class="modal-footer" v-if="showAnswer">
       <a href="#" v-for="team in teams"
@@ -44,9 +51,22 @@ export default class QuestionModal extends Vue {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
+@use 'src/assets/theme.scss';
+
 div.modal div.modal-footer a.btn {
   margin-left: 0.2rem;
   margin-right: 0.2rem;
+}
+
+span.card-title {
+  text-align: right;
+  display: block;
+  line-height: 0;
+  color: theme.$text-inconspicuous;
+}
+
+strong.inconspicuous-text {
+  font-size: 0.9rem;
 }
 </style>
