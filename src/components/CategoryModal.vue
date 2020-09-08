@@ -3,7 +3,7 @@
     <div class="category-fields modal-content">
       <span id="m-category">Category:</span>
       <input id="i-category" type="text" v-model="categoryCopy"
-        placeholder="Name of category">
+        placeholder="Name of category" @keyup.13="onSave">
     </div>
     <div class="modal-footer">
       <a class="danger waves-effect waves-red btn" href="#" @click="onDelete"
