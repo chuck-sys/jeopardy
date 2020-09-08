@@ -45,6 +45,14 @@ export default class EditModal extends Vue {
 
   public init(q: Question) {
     this.question = q;
+    // We have to wait a bit before we can set the focus because reasons
+    // unknown to me
+    setTimeout(() => {
+      const hintText = document.getElementById('i-hint');
+      if (hintText) {
+        hintText.focus();
+      }
+    }, 100);
   }
 }
 </script>

@@ -3,7 +3,7 @@
     <div class="category-fields modal-content">
       <span id="m-category">Category:</span>
       <input id="i-category" type="text" v-model="categoryCopy"
-        placeholder="Name of category" @keyup.13="onSave">
+        autofocus placeholder="Name of category" @keyup.13="onSave">
     </div>
     <div class="modal-footer">
       <a class="danger waves-effect waves-red btn" href="#" @click="onDelete"
@@ -45,6 +45,15 @@ export default class CategoryModal extends Vue {
   public init(category: string) {
     this.category = category;
     this.categoryCopy = category;
+
+    // We have to wait a bit before we can set the focus because reasons
+    // unknown to me
+    setTimeout(() => {
+      const catText = document.getElementById('i-category');
+      if (catText) {
+        catText.focus();
+      }
+    }, 100);
   }
 }
 </script>
