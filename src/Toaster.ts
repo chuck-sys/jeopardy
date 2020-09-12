@@ -53,7 +53,7 @@ export default class Toaster {
     M.toast({
       html: `<p><strong>'${cat}' already exists</strong></br>
         Consider renaming the column (e.g. adding a number).</p>`,
-      displayLength: 50000,
+      displayLength: 5000,
     });
   }
 }
