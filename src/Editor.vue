@@ -121,8 +121,14 @@ export default class Editor extends Vue {
   }
 
   private onAddCategory(category: string) {
-    this.$set(this.questions, category, []);
-    setQuestions(this.questions);
+    // console.log(this.questions);
+    // console.log(category);
+    if (Object.prototype.hasOwnProperty.call(this.questions, category)) {
+      T.categoryExists(category);
+    } else {
+      this.$set(this.questions, category, []);
+      setQuestions(this.questions);
+    }
   }
 
   private onDeleteCategory(category: string) {
