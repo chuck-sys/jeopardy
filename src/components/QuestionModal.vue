@@ -5,11 +5,11 @@
         [ {{ question.points }} {{ question.points === 1 ? "Point" : "Points" }} ]
       </span>
       <hr>
-      <p id="question-hint" v-html="question.hint"></p>
+      <p id="question-hint" v-html="converter.makeHtml(question.hint)"></p>
       <div v-if="showAnswer">
         <hr>
         <strong class="inconspicuous-text">Answer</strong>
-        <p id="question-answer" v-html="question.answer"></p>
+        <p id="question-answer" v-html="converter.makeHtml(question.answer)"></p>
       </div>
     </div>
     <div class="modal-footer" v-if="showAnswer">
@@ -30,10 +30,16 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import showdown from 'showdown';
 import { Question, emptyQuestion } from '../question';
+
+const converterConfig = {
+  tables: true,
+};
 
 @Component
 export default class QuestionModal extends Vue {
+  private readonly converter = new showdown.Converter(converterConfig);
   private showAnswer = false;
   private teams: Array<string> = [];
   private question: Question = emptyQuestion('');

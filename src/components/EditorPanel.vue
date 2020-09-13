@@ -1,26 +1,28 @@
 <template>
   <div class="editor-panel">
-    <div class="category center-align"
-         v-for="category in Object.keys(questions)"
-         :key="category">
-      <span class="header z-depth-1"
-            @click="onClickCategory(category)">{{ category }}</span>
-      <category-question-list-pure
-            :questions="questions[category]"
-            :category="category"
-            @click-question="onClickQuestion"></category-question-list-pure>
-      <span class="add-question z-depth-1"
-            :class="addQuestionClass(category)"
-            @click="onAddQuestion(category)">
+    <div class="category-list">
+      <div class="category center-align"
+           v-for="category in Object.keys(questions)"
+           :key="category">
+        <span class="header z-depth-1"
+              @click="onClickCategory(category)">{{ category }}</span>
+        <category-question-list-pure
+              :questions="questions[category]"
+              :category="category"
+              @click-question="onClickQuestion"></category-question-list-pure>
+        <span class="add-question z-depth-1"
+              :class="addQuestionClass(category)"
+              @click="onAddQuestion(category)">
+          <i class="material-icons">add</i>
+          Add Question
+        </span>
+      </div>
+      <div class="z-depth-1 add-category"
+           :class="{pulse: Object.keys(questions).length === 0}"
+           @click="onAddCategory">
         <i class="material-icons">add</i>
-        Add Question
-      </span>
-    </div>
-    <div class="z-depth-1 add-category"
-         :class="{pulse: Object.keys(questions).length === 0}"
-         @click="onAddCategory">
-      <i class="material-icons">add</i>
-      <span>Add Category</span>
+        <span>Add Category</span>
+      </div>
     </div>
 
     <edit-modal
@@ -136,12 +138,12 @@ export default class EditorPanel extends Vue {
 <style lang="scss">
 @use 'src/assets/theme.scss';
 
-div.editor-panel {
+div.category-list {
   margin: 1rem;
   overflow-x: auto;
-  white-space: nowrap;
   min-height: 10rem;
   border-bottom: 1px solid theme.$disabled;
+  white-space: nowrap;
 
   .category {
     display: inline-block;
