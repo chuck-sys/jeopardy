@@ -51,8 +51,15 @@ export default class QuestionModal extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @use 'src/assets/theme.scss';
+
+p#question-hint, p#question-answer {
+  img {
+    margin: auto;
+    display: block;
+  }
+}
 
 div.modal div.modal-footer a.btn {
   margin-left: 0.2rem;
