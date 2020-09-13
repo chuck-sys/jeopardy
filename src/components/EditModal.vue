@@ -43,7 +43,6 @@ export default class EditModal extends Vue {
   private clickDelete = false;
 
   private onClickDelete() {
-    console.log(this.converter.makeHtml(this.question.hint));
     if (this.clickDelete) {
       this.$emit('delete');
     } else {
