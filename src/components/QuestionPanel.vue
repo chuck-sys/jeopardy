@@ -1,11 +1,13 @@
 <template>
   <div class="question-panel">
-    <div class="category center-align"
-         v-for="category in Object.keys(questions)"
-         :key="category">
-      <span class="header z-depth-1">{{ category }}</span>
-      <category-question-list :questions="questions[category]"
-            @click-question="onClickQuestion"></category-question-list>
+    <div class="category-list">
+      <div class="category center-align"
+           v-for="category in Object.keys(questions)"
+           :key="category">
+        <span class="header z-depth-1">{{ category }}</span>
+        <category-question-list :questions="questions[category]"
+              @click-question="onClickQuestion"></category-question-list>
+      </div>
     </div>
     <p v-if="Object.keys(questions).length === 0">
     It looks like there aren't any questions yet. Try adding some via edit mode!
@@ -75,13 +77,16 @@ export default class QuestionPanel extends Vue {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 @use 'src/assets/theme';
+
+div.category-list {
+  white-space: nowrap;
+}
 
 div.question-panel {
   margin-top: 1rem;
   overflow-x: auto;
-  white-space: nowrap;
 
   .category {
     display: inline-block;

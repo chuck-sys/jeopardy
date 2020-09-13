@@ -5,11 +5,11 @@
         [ {{ question.points }} {{ question.points === 1 ? "Point" : "Points" }} ]
       </span>
       <hr>
-      <p v-html="question.hint"></p>
+      <p id="question-hint" v-html="question.hint"></p>
       <div v-if="showAnswer">
         <hr>
         <strong class="inconspicuous-text">Answer</strong>
-        <p v-html="question.answer"></p>
+        <p id="question-answer" v-html="question.answer"></p>
       </div>
     </div>
     <div class="modal-footer" v-if="showAnswer">
