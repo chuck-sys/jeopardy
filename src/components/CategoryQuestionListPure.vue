@@ -18,7 +18,7 @@ export default class CategoryQuestionList extends Vue {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 @use 'src/assets/theme';
 
 ul.question-list {

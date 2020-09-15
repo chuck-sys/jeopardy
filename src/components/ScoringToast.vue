@@ -150,7 +150,7 @@ export default class ScoringToast extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 @use 'src/assets/theme.scss';
 
 .scoring-toast {

@@ -30,7 +30,7 @@ export default class AddTeam extends Vue {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 @use 'src/assets/theme.scss';
 
 li.add-team {

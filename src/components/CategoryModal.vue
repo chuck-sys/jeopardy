@@ -58,7 +58,7 @@ export default class CategoryModal extends Vue {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 div.modal div.modal-footer a.btn {
   margin-left: 0.2rem;
   margin-right: 0.2rem;
