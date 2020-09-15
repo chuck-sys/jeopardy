@@ -90,7 +90,7 @@ div.question-panel {
 
   .category {
     display: inline-block;
-    width: 10rem;
+    width: 12rem;
     vertical-align: top;
 
     .header {
@@ -100,6 +100,7 @@ div.question-panel {
       padding: 1rem;
       margin: 0.4rem 0.2rem;
       cursor: pointer;
+      white-space: unset;
     }
   }
 
