@@ -68,6 +68,8 @@ export default class EditModal extends Vue {
 </script>
 
 <style scoped lang="scss">
+@use 'src/assets/theme.scss';
+
 div.modal {
   width: 80%;
 }
@@ -120,6 +122,7 @@ div#preview-hint {
   padding-left: 1rem;
   grid-column: 3 / span 1;
   grid-row: 2 / span 1;
+  border-top: 1px solid theme.$disabled;
 }
 
 span#m-answer {
@@ -137,6 +140,7 @@ div#preview-answer {
   padding-left: 1rem;
   grid-column: 3 / span 1;
   grid-row: 3 / span 1;
+  border-top: 1px solid theme.$disabled;
 }
 
 </style>
