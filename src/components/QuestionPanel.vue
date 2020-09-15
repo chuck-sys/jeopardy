@@ -100,7 +100,6 @@ div.question-panel {
       padding: 1rem;
       margin: 0.4rem 0.2rem;
       cursor: pointer;
-      white-space: unset;
     }
   }
 
