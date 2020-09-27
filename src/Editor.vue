@@ -33,6 +33,11 @@ import ControlPanel from './components/ControlPanel.vue';
 import EditorPanel from './components/EditorPanel.vue';
 import T from './Toaster';
 
+function encodeBase64(str: string): string {
+  return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+    (_, p1) => String.fromCharCode(Number(`0x${p1}`))));
+}
+
 @Component({
   components: {
     ControlPanel,
@@ -121,8 +126,6 @@ export default class Editor extends Vue {
   }
 
   private onAddCategory(category: string) {
-    // console.log(this.questions);
-    // console.log(category);
     if (Object.prototype.hasOwnProperty.call(this.questions, category)) {
       T.categoryExists(category);
     } else {
@@ -156,7 +159,7 @@ export default class Editor extends Vue {
     const contents = JSON.stringify(this.questions);
     const a = document.createElement('a');
 
-    a.href = `data:${filetype};base64,${btoa(contents)}`;
+    a.href = `data:${filetype};base64,${encodeBase64(contents)}`;
     a.download = filename;
 
     const clickEvent = new MouseEvent('click', {
