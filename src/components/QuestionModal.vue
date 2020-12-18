@@ -15,15 +15,15 @@
     <div class="modal-footer" v-if="showAnswer">
       <a href="#" v-for="team in teams"
                   :key="team"
-                  class="waves-effect waves-light btn"
+                  class="btn"
                   @click="$emit('answer-question', team)">
         {{ team }}
       </a>
-      <a href="#" @click="$emit('cancel-focus')" class="waves-effect waves-light btn">Close</a>
+      <a href="#" @click="$emit('cancel-focus')" class="btn">Close</a>
     </div>
     <div class="modal-footer" v-else>
-      <a href="#" @click="onShowAnswer" class="waves-effect waves-light btn">Show Answer</a>
-      <a href="#" @click="$emit('cancel-focus')" class="waves-effect waves-light btn">Close</a>
+      <a href="#" @click="onShowAnswer" class="btn">Show Answer</a>
+      <a href="#" @click="$emit('cancel-focus')" class="btn">Close</a>
     </div>
   </div>
 </template>

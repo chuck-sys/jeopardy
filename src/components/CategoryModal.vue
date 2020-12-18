@@ -6,10 +6,10 @@
         autofocus placeholder="Name of category" @keyup.13="onSave">
     </div>
     <div class="modal-footer">
-      <a class="danger waves-effect waves-red btn" href="#" @click="onDelete"
+      <a class="danger btn" href="#" @click="onDelete"
                                             :class="{'danger-confirm': clickDelete}">Delete</a>
-      <a class="cancel waves-effect waves-light btn" href="#" @click="onCancel">Cancel</a>
-      <a class="affirm waves-effect waves-green btn" href="#" @click="onSave">Save</a>
+      <a class="cancel btn" href="#" @click="onCancel">Cancel</a>
+      <a class="affirm btn" href="#" @click="onSave">Save</a>
     </div>
   </div>
 </template>

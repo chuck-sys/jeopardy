@@ -15,12 +15,12 @@
     </div>
     <div class="modal-footer">
       <a href="#"
-         class="danger btn waves-effect waves-red"
+         class="danger btn"
          :class="{'danger-confirm': clickDelete}"
          @click="onClickDelete">Delete</a>
-      <a href="#" class="cancel btn waves-effect waves-light"
+      <a href="#" class="cancel btn"
                   @click="$emit('cancel-focus')">Cancel</a>
-      <a href="#" class="affirm btn waves-effect waves-green"
+      <a href="#" class="affirm btn"
                   @click="$emit('save-question')">Save</a>
     </div>
   </div>
