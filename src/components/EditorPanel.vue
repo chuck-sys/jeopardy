@@ -1,24 +1,28 @@
 <template>
   <div class="editor-panel">
     <div class="category-list">
-      <div class="category center-align"
-           v-for="category in Object.keys(questions)"
-           :key="category">
-        <span class="header z-depth-1"
-              @click="onClickCategory(category)">{{ category }}</span>
-        <category-question-list-pure
-              :questions="questions[category]"
+      <draggable :list="categories" @end="onReorderDone">
+        <div class="category center-align"
+             v-for="(category, catIndex) in categories"
+             :key="catIndex">
+          <span class="header z-depth-1"
+                slot="header"
+                @click="onClickCategory(catIndex, category)">{{ category.name }}</span>
+          <category-question-list-pure
               :category="category"
+              :catIndex="catIndex"
               @click-question="onClickQuestion"></category-question-list-pure>
-        <span class="add-question z-depth-1"
-              :class="addQuestionClass(category)"
-              @click="onAddQuestion(category)">
-          <i class="material-icons">add</i>
-          Add Question
-        </span>
-      </div>
+          <span class="add-question z-depth-1"
+                slot="footer"
+                :class="addQuestionClass(category)"
+                @click="onAddQuestion(catIndex, category)">
+            <i class="material-icons">add</i>
+            Add Question
+          </span>
+        </div>
+      </draggable>
       <div class="z-depth-1 add-category"
-           :class="{pulse: Object.keys(questions).length === 0}"
+           :class="{pulse: categories.length === 0}"
            @click="onAddCategory">
         <i class="material-icons">add</i>
         <span>Add Category</span>
@@ -42,40 +46,45 @@
 import {
   Prop, Component, Ref, Vue,
 } from 'vue-property-decorator';
+import draggable from 'vuedraggable';
 
 import { openModal, closeModal } from '../ModalHelpers';
 import EditModal from './EditModal.vue';
 import CategoryQuestionListPure from './CategoryQuestionListPure.vue';
 import CategoryModal from './CategoryModal.vue';
-import { emptyQuestion, copy as copyQuestion, Questions } from '../question';
+import { emptyQuestion, copy as copyQuestion, Category } from '../question';
 
 @Component({
   components: {
     EditModal,
     CategoryQuestionListPure,
     CategoryModal,
+    draggable,
   },
 })
 export default class EditorPanel extends Vue {
   @Ref() private categoryModal!: CategoryModal;
   @Ref() private editModal!: EditModal;
-  @Prop() private readonly questions!: Questions;
+  @Prop() private readonly categories!: Array<Category>;
 
   private clickIndex = -1;
   private questionClone = emptyQuestion('');
 
-  private addQuestionClass(category: string) {
+  private onReorderDone() {
+    this.$emit('finish-reorder');
+  }
+
+  private addQuestionClass(category: Category) {
     return {
-      pulse: this.questions[category]
-      && Object.keys(this.questions[category]).length === 0,
+      pulse: category.questions.length === 0,
     };
   }
 
-  private onSaveCategory(oldCategory: string, newCategory: string) {
-    if (oldCategory === '') {
+  private onSaveCategory(catIndex: number, newCategory: string) {
+    if (catIndex === -1) {
       this.$emit('add-category', newCategory);
     } else {
-      this.$emit('rename-category', oldCategory, newCategory);
+      this.$emit('rename-category', catIndex, newCategory);
     }
     closeModal(this.categoryModal);
   }
@@ -89,35 +98,35 @@ export default class EditorPanel extends Vue {
     closeModal(this.categoryModal);
   }
 
-  private onAddQuestion(category: string) {
+  private onAddQuestion(catIndex: number, category: Category) {
     // Logically, when you click at the end of a list, the index should be the
     // end of the list.
-    this.clickIndex = this.questions[category].length;
-    this.questionClone = emptyQuestion(category);
+    this.clickIndex = category.questions.length;
+    this.questionClone = emptyQuestion(category.name);
 
-    this.editModal.init(this.questionClone);
+    this.editModal.init(catIndex, this.questionClone);
     openModal(this.editModal);
   }
 
-  private onSaveQuestion() {
-    this.$emit('update-question', this.clickIndex, this.questionClone);
+  private onSaveQuestion(catIndex: number) {
+    this.$emit('update-question', catIndex, this.clickIndex, this.questionClone);
     this.onCancelFocus();
   }
 
   private onAddCategory() {
-    this.categoryModal.init('');
+    this.categoryModal.init(-1, { name: '', questions: [] });
     openModal(this.categoryModal);
   }
 
-  private onClickCategory(category: string) {
-    this.categoryModal.init(category);
+  private onClickCategory(catIndex: number, category: Category) {
+    this.categoryModal.init(catIndex, category);
     openModal(this.categoryModal);
   }
 
-  private onClickQuestion(category: string, i: number) {
+  private onClickQuestion(catIndex: number, i: number) {
     this.clickIndex = i;
-    this.questionClone = copyQuestion(this.questions[category][i]);
-    this.editModal.init(this.questionClone);
+    this.questionClone = copyQuestion(this.categories[catIndex].questions[i]);
+    this.editModal.init(catIndex, this.questionClone);
     openModal(this.editModal);
   }
 
@@ -127,9 +136,8 @@ export default class EditorPanel extends Vue {
     closeModal(this.editModal);
   }
 
-  private onDeleteQuestion() {
-    const { category } = this.questionClone;
-    this.$emit('delete-question', category, this.clickIndex);
+  private onDeleteQuestion(catIndex: number) {
+    this.$emit('delete-question', catIndex, this.clickIndex);
     closeModal(this.editModal);
   }
 }

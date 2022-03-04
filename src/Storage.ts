@@ -1,18 +1,18 @@
-import { Questions } from './question';
+import { Category } from './question';
 
 export type Scores = {[key: string]: number};
 
-export function getQuestions(): Questions {
-  const s = localStorage.getItem('questions');
+export function getCategories(): Array<Category> {
+  const s = localStorage.getItem('categories');
   if (s === null) {
-    return {};
+    return [];
   }
   return JSON.parse(s);
 }
 
-export function setQuestions(questions: Questions) {
-  const s = JSON.stringify(questions);
-  localStorage.setItem('questions', s);
+export function setCategories(cats: Array<Category>) {
+  const s = JSON.stringify(cats);
+  localStorage.setItem('categories', s);
 }
 
 export function getTeams(): Scores {

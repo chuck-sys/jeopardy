@@ -1,10 +1,11 @@
 <template>
   <div id="app">
-    <editor-panel :questions="questions"
+    <editor-panel :categories="categories"
        @update-question="onUpdateQuestion"
        @delete-question="onDeleteQuestion"
        @rename-category="onRenameCategory"
        @add-category="onAddCategory"
+       @finish-reorder="onFinishReorder"
        @delete-category="onDeleteCategory"></editor-panel>
     <control-panel class="control-panel"
                    @reset-questions="onResetQuestions"
@@ -15,7 +16,7 @@
 
     <footer>
       <div class="footer-content">
-        <a href="about.html">About Jeopardy</a> .
+        <a href="about.html">About Jeopardy {{ version }}</a> .
         <a href="https://gitlab.com/chucksys/jeopardy-vue/">Code</a> .
         <a href="https://youtu.be/RnRrs5neEMo">Help</a>
       </div>
@@ -25,9 +26,11 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { Question, Questions } from './question';
+
+import PKGINFO from '../package.json';
+import { Question, Category } from './question';
 import {
-  getQuestions, setQuestions, getTeams, setTeams, Scores,
+  getCategories, setCategories, getTeams, setTeams, Scores,
 } from './Storage';
 import ControlPanel from './components/ControlPanel.vue';
 import EditorPanel from './components/EditorPanel.vue';
@@ -45,8 +48,9 @@ function encodeBase64(str: string): string {
   },
 })
 export default class Editor extends Vue {
-  private questions: Questions = getQuestions();
+  private categories: Array<Category> = getCategories();
   private hasPermanentlyDeletedBefore = false;
+  private readonly version = PKGINFO.version;
 
   // eslint-disable-next-line
   private onResetScores() {
@@ -58,15 +62,18 @@ export default class Editor extends Vue {
     T.resetAllTeamScores();
   }
 
+  private onFinishReorder() {
+    setCategories(this.categories);
+  }
+
   private onResetQuestions() {
-    const categories = Object.keys(this.questions);
-    categories.forEach((cat) => {
-      this.questions[cat].forEach((q) => {
+    this.categories.forEach((cat: Category) => {
+      cat.questions.forEach((q: Question) => {
         q.answeredBy = '';
         q.seenAnswer = false;
       });
     });
-    setQuestions(this.questions);
+    setCategories(this.categories);
     T.resetAllQuestions();
   }
 
@@ -74,12 +81,12 @@ export default class Editor extends Vue {
     // We appear to delete everything here, but we don't actually save the
     // empty question set into local storage until AFTER you make a change, or
     // unless you press the "delete all" button again.
-    if (Object.keys(this.questions).length === 0) {
-      setQuestions(this.questions);
+    if (this.categories.length === 0) {
+      setCategories(this.categories);
       T.permanentDelete();
       this.hasPermanentlyDeletedBefore = true;
     } else {
-      this.questions = {};
+      this.categories = [];
 
       if (!this.hasPermanentlyDeletedBefore) {
         T.deleteOnceNotPermanent();
@@ -87,66 +94,55 @@ export default class Editor extends Vue {
     }
   }
 
-  private onUpdateQuestion(i: number, q: Question) {
-    const { category } = q;
+  private onUpdateQuestion(catIndex: number, qIndex: number, q: Question) {
+    const { hint, answer } = q;
     q.points = Number(q.points);
-    if (i === this.questions[category].length) {
-      this.questions[category].push(q);
+    if (qIndex === this.categories[catIndex].questions.length) {
+      this.categories[catIndex].questions.push(q);
     } else {
-      this.questions[category][i].hint = q.hint;
-      this.questions[category][i].answer = q.answer;
-      this.questions[category][i].points = q.points;
+      this.categories[catIndex].questions[qIndex].hint = hint;
+      this.categories[catIndex].questions[qIndex].answer = answer;
+      this.categories[catIndex].questions[qIndex].points = q.points;
     }
 
-    this.questions[category].sort((a: Question, b: Question) => a.points - b.points);
-    setQuestions(this.questions);
+    this.categories[catIndex].questions.sort((a: Question, b: Question) => a.points - b.points);
+    setCategories(this.categories);
   }
 
-  private onDeleteQuestion(category: string, i: number) {
-    if (i >= 0 && i < this.questions[category].length) {
-      this.$delete(this.questions[category], i);
-      setQuestions(this.questions);
-      T.deleteQuestion();
-    }
+  private onDeleteQuestion(catId: number, i: number) {
+    this.$delete(this.categories[catId].questions, i);
+    setCategories(this.categories);
+    T.deleteQuestion();
   }
 
-  private onRenameCategory(oldCategory: string, newCategory: string) {
-    if (oldCategory === newCategory) {
-      return;
-    }
-
-    const oldQuestions: Array<Question> = this.questions[oldCategory];
-    oldQuestions.forEach((q) => {
+  private onRenameCategory(catId: number, newCategory: string) {
+    this.categories[catId].name = newCategory;
+    this.categories[catId].questions.forEach((q: Question) => {
       q.category = newCategory;
     });
-    this.$set(this.questions, newCategory, oldQuestions);
-    this.$delete(this.questions, oldCategory);
-    setQuestions(this.questions);
+    setCategories(this.categories);
     T.updateCategory();
   }
 
   private onAddCategory(category: string) {
-    if (Object.prototype.hasOwnProperty.call(this.questions, category)) {
-      T.categoryExists(category);
-    } else {
-      this.$set(this.questions, category, []);
-      setQuestions(this.questions);
-    }
+    this.categories.push({ name: category, questions: [] });
+    setCategories(this.categories);
   }
 
-  private onDeleteCategory(category: string) {
-    this.$delete(this.questions, category);
-    setQuestions(this.questions);
-    T.deleteCategory(category);
+  private onDeleteCategory(catId: number) {
+    const catName = this.categories[catId].name;
+    this.$delete(this.categories, catId);
+    setCategories(this.categories);
+    T.deleteCategory(catName);
   }
 
   private onUploadFile(evt: Event) {
     const reader = new FileReader();
     reader.onload = (e: Event) => {
       const { result } = e.target as any;
-      const questions = JSON.parse(result);
-      this.questions = questions;
-      setQuestions(this.questions);
+      const categories = JSON.parse(result);
+      this.categories = categories;
+      setCategories(this.categories);
       T.uploadFile();
     };
 
@@ -156,7 +152,7 @@ export default class Editor extends Vue {
   private onDownloadFile() {
     const filename = 'jeopardy.json';
     const filetype = 'application/json';
-    const contents = JSON.stringify(this.questions);
+    const contents = JSON.stringify(this.categories);
     const a = document.createElement('a');
 
     a.href = `data:${filetype};base64,${encodeBase64(contents)}`;

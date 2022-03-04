@@ -21,7 +21,7 @@
       <a href="#" class="cancel btn"
                   @click="$emit('cancel-focus')">Cancel</a>
       <a href="#" class="affirm btn"
-                  @click="$emit('save-question')">Save</a>
+                  @click="$emit('save-question', catIndex)">Save</a>
     </div>
   </div>
 </template>
@@ -41,10 +41,11 @@ export default class EditModal extends Vue {
   private readonly converter = new showdown.Converter(converterConfig);
   private question = emptyQuestion('');
   private clickDelete = false;
+  private catIndex = -1;
 
   private onClickDelete() {
     if (this.clickDelete) {
-      this.$emit('delete');
+      this.$emit('delete', this.catIndex);
     } else {
       this.clickDelete = true;
       setTimeout(() => {
@@ -53,8 +54,9 @@ export default class EditModal extends Vue {
     }
   }
 
-  public init(q: Question) {
+  public init(catIndex: number, q: Question) {
     this.question = q;
+    this.catIndex = catIndex;
     // We have to wait a bit before we can set the focus because reasons
     // unknown to me
     setTimeout(() => {

@@ -1,12 +1,16 @@
 <template>
   <li class="add-team row">
     <a class="btn" href="#" v-if="!addTeamPressed"
-                            @click="addTeamPressed = true">
+                            @click="onPressAddTeam">
       Add team
     </a>
     <span v-if="addTeamPressed">
-      <input class="col s10" type="text" placeholder="Team name"
-                                         v-model="teamName">
+      <input class="col s10"
+             id="teamName"
+             type="text"
+             placeholder="Team name"
+             @keyup.13="onAddTeam"
+             v-model="teamName">
       <a class="col s2 btn" href="#" @click="onAddTeam">
         <i class="material-icons">add</i>
       </a>
@@ -22,9 +26,19 @@ export default class AddTeam extends Vue {
   private addTeamPressed = false;
   private teamName = '';
 
+  private onPressAddTeam() {
+    this.addTeamPressed = true;
+
+    setTimeout(() => {
+      const f = document.getElementById('teamName');
+      if (f) {
+        f.focus();
+      }
+    }, 100);
+  }
+
   private onAddTeam() {
     this.$emit('add-team', this.teamName);
-    this.addTeamPressed = false;
     this.teamName = '';
   }
 }

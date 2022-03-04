@@ -7,29 +7,29 @@
     </div>
     <div class="right-pane">
       <div class="affirmative-actions">
-        <a class="btn affirm" href="#"
+        <button class="btn affirm" href="#"
                               title="Download a copy as a backup"
                               @click="$emit('download-file')">
           Download
-        </a>
+        </button>
         <a class="btn affirm" href="index.html">
           Play
         </a>
       </div>
       <div class="dangerous-actions">
-        <a class="btn danger" href="#" title="Resets question answered status"
+        <button class="btn danger" href="#" title="Resets question answered status"
           @click="$emit('reset-questions')">
           Reset questions
-        </a>
-        <a class="btn danger" href="#" title="Resets team scores to zero"
+        </button>
+        <button class="btn danger" href="#" title="Resets team scores to zero"
           @click="$emit('reset-scores')">
           Reset scores
-        </a>
-        <a class="btn danger" href="#"
+        </button>
+        <button class="btn danger" href="#"
                               title="Deletes all questions"
                               @click="deleteAll" :class="{'danger-confirm': clickDelete}">
           Delete questions
-        </a>
+        </button>
       </div>
     </div>
   </div>
@@ -70,7 +70,7 @@ div.control-panel {
     justify-content: space-between;
     align-content: center;
 
-    a {
+    a, button {
       margin: 0.2rem auto;
       width: 100%;
     }

@@ -1,20 +1,20 @@
 <template>
   <ul class="question-list">
     <li class="question z-depth-1"
-      v-for="(q, i) in questions"
+      v-for="(q, i) in category.questions"
       :key="q.hint"
-      @click="$emit('click-question', category, i)">{{ q.points }}</li>
+      @click="$emit('click-question', catIndex, i)">{{ q.points }}</li>
   </ul>
 </template>
 
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator';
-import { Question } from '../question';
+import { Category } from '../question';
 
 @Component
 export default class CategoryQuestionList extends Vue {
-  @Prop() private readonly category!: string;
-  @Prop() private readonly questions!: Array<Question>;
+  @Prop() private readonly category!: Category;
+  @Prop() private readonly catIndex!: number;
 }
 </script>
 

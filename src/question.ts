@@ -6,7 +6,10 @@ export interface Question {
   answeredBy: string;
   seenAnswer: boolean;
 }
-export type Questions = {[key: string]: Question[]};
+export interface Category {
+  name: string;
+  questions: Array<Question>;
+}
 
 export function emptyQuestion(category: string): Question {
   return {

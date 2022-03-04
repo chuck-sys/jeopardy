@@ -2,7 +2,7 @@
   <div class="modal">
     <div class="category-fields modal-content">
       <span id="m-category">Category:</span>
-      <input id="i-category" type="text" v-model="categoryCopy"
+      <input id="i-category" type="text" v-model="categoryName"
         autofocus placeholder="Name of category" @keyup.13="onSave">
     </div>
     <div class="modal-footer">
@@ -16,15 +16,16 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { Category } from '../question';
 
 @Component
 export default class CategoryModal extends Vue {
-  private category = '';
-  private categoryCopy = '';
+  private catIndex = -1;
   private clickDelete = false;
+  private categoryName = '';
 
   private onSave() {
-    this.$emit('save-category', this.category, this.categoryCopy);
+    this.$emit('save-category', this.catIndex, this.categoryName);
   }
 
   private onCancel() {
@@ -33,7 +34,7 @@ export default class CategoryModal extends Vue {
 
   private onDelete() {
     if (this.clickDelete) {
-      this.$emit('delete-category', this.category);
+      this.$emit('delete-category', this.catIndex);
     } else {
       this.clickDelete = true;
       setTimeout(() => {
@@ -42,9 +43,9 @@ export default class CategoryModal extends Vue {
     }
   }
 
-  public init(category: string) {
-    this.category = category;
-    this.categoryCopy = category;
+  public init(catIndex: number, category: Category) {
+    this.categoryName = category.name;
+    this.catIndex = catIndex;
 
     // We have to wait a bit before we can set the focus because reasons
     // unknown to me

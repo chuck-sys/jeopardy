@@ -6,13 +6,16 @@
        @add-team="onAddTeam"
        @remove-team="onRemoveTeam"></scoreboard>
     <div class="main">
-      <question-panel :questions="questions" :scores="scores"
-        @add-score="onAddScore" @view-answer="onViewAnswer"></question-panel>
+      <question-panel
+          :categories="categories"
+          :scores="scores"
+          @add-score="onAddScore"
+          @view-answer="onViewAnswer"></question-panel>
     </div>
 
     <div class="fixed-action-btn">
       <a class="btn-floating btn-large danger"
-         :class="{pulse: Object.keys(questions).length === 0}"
+         :class="{pulse: categories.length === 0}"
          href="editor.html">
         <i class="material-icons">mode_edit</i>
       </a>
@@ -32,9 +35,9 @@ import { Ref, Component, Vue } from 'vue-property-decorator';
 import M from 'materialize-css';
 
 import {
-  getQuestions, getTeams, setTeams, Scores, setQuestions,
+  getCategories, getTeams, setTeams, Scores, setCategories,
 } from './Storage';
-import { Questions } from './question';
+import { Question, Category } from './question';
 import Scoreboard from './components/Scoreboard.vue';
 import QuestionPanel from './components/QuestionPanel.vue';
 import ScoringToast from './components/ScoringToast.vue';
@@ -51,24 +54,21 @@ export default class App extends Vue {
   @Ref() private scoringToast!: ScoringToast;
 
   private scores: Scores = getTeams();
-  private questions: Questions = getQuestions();
+  private categories: Array<Category> = getCategories();
 
   private onPulloutScoreboard() {
     const instance = M.Sidenav.init(this.scoreboard.$el, {});
     instance.open();
   }
 
-  private onAddScore(team: string, category: string, i: number) {
-    if (i >= 0 && i < this.questions[category].length) {
-      const q = this.questions[category][i];
-      this.scoringToast.init(team, this.scores[team], Number(q.points));
-      this.$set(this.scores, team, this.scores[team] + Number(q.points));
-      q.answeredBy = team;
+  private onAddScore(team: string, q: Question) {
+    this.scoringToast.init(team, this.scores[team], Number(q.points));
+    this.$set(this.scores, team, this.scores[team] + Number(q.points));
+    q.answeredBy = team;
 
-      this.scoringToast.display();
-      setTeams(this.scores);
-      setQuestions(this.questions);
-    }
+    this.scoringToast.display();
+    setTeams(this.scores);
+    setCategories(this.categories);
   }
 
   private onAddTeam(team: string) {
@@ -84,18 +84,14 @@ export default class App extends Vue {
     setTeams(this.scores);
   }
 
-  private onViewAnswer(category: string, i: number) {
-    if (i >= 0 && i < this.questions[category].length) {
-      this.$set(this.questions[category][i], 'seenAnswer', true);
-      setQuestions(this.questions);
-      // const q = this.questions[category][i];
-      // q.seenAnswer = true;
-    }
+  private onViewAnswer(q: Question) {
+    q.seenAnswer = true;
+    setCategories(this.categories);
   }
 
   private pulltabClass() {
     return {
-      pulse: Object.keys(this.questions).length > 0
+      pulse: this.categories.length > 0
       && Object.keys(this.scores).length === 0,
     };
   }

@@ -2,14 +2,14 @@
   <div class="question-panel">
     <div class="category-list">
       <div class="category center-align"
-           v-for="category in Object.keys(questions)"
-           :key="category">
-        <span class="header z-depth-1">{{ category }}</span>
-        <category-question-list :questions="questions[category]"
+           v-for="(category, catIndex) in categories"
+           :key="catIndex">
+        <span class="header z-depth-1">{{ category.name }}</span>
+        <category-question-list :category="category"
               @click-question="onClickQuestion"></category-question-list>
       </div>
     </div>
-    <p v-if="Object.keys(questions).length === 0">
+    <p v-if="categories.length === 0">
     It looks like there aren't any questions yet. Try adding some via edit mode!
     </p>
     <question-modal
@@ -28,7 +28,7 @@ import {
 
 import { Scores } from '../Storage';
 import { openModal, closeModal } from '../ModalHelpers';
-import { emptyQuestion, Questions } from '../question';
+import { emptyQuestion, Question, Category } from '../question';
 import CategoryQuestionList from './CategoryQuestionList.vue';
 import QuestionModal from './QuestionModal.vue';
 
@@ -40,15 +40,14 @@ import QuestionModal from './QuestionModal.vue';
 })
 export default class QuestionPanel extends Vue {
   @Ref() private questionModal!: QuestionModal;
-  @Prop() private readonly questions!: Questions;
+  @Prop() private readonly categories!: Array<Category>;
   @Prop() private readonly scores!: Scores;
 
   private questionClicked = emptyQuestion('');
   private clickIndex = -1;
   private showAnswer = false;
 
-  private onClickQuestion(category: string, i: number) {
-    const q = this.questions[category][i];
+  private onClickQuestion(i: number, q: Question) {
     if (q.seenAnswer) {
       return;
     }
@@ -56,7 +55,7 @@ export default class QuestionPanel extends Vue {
     this.questionClicked = q;
     this.clickIndex = i;
 
-    this.questionModal.init(Object.keys(this.scores), this.questionClicked);
+    this.questionModal.init(Object.keys(this.scores), q);
     openModal(this.questionModal);
   }
 
@@ -67,11 +66,11 @@ export default class QuestionPanel extends Vue {
   }
 
   private onShowAnswer() {
-    this.$emit('view-answer', this.questionClicked.category, this.clickIndex);
+    this.$emit('view-answer', this.questionClicked);
   }
 
   private onAnswerQuestion(team: string) {
-    this.$emit('add-score', team, this.questionClicked.category, this.clickIndex);
+    this.$emit('add-score', team, this.questionClicked);
     this.onCancelFocus();
   }
 }
