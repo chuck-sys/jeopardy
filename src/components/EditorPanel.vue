@@ -74,6 +74,7 @@ export default class EditorPanel extends Vue {
     this.$emit('finish-reorder');
   }
 
+  // eslint-disable-next-line
   private addQuestionClass(category: Category) {
     return {
       pulse: category.questions.length === 0,

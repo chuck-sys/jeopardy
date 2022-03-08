@@ -4,17 +4,14 @@
                             @click="onPressAddTeam">
       Add team
     </a>
-    <span v-if="addTeamPressed">
-      <input class="col s10"
+    <div v-else class="input-field">
+      <input class="validate"
              id="teamName"
              type="text"
-             placeholder="Team name"
              @keyup.13="onAddTeam"
              v-model="teamName">
-      <a class="col s2 btn" href="#" @click="onAddTeam">
-        <i class="material-icons">add</i>
-      </a>
-    </span>
+      <label for="teamName">New team name</label>
+    </div>
   </li>
 </template>
 
@@ -38,6 +35,10 @@ export default class AddTeam extends Vue {
   }
 
   private onAddTeam() {
+    if (this.teamName === '') {
+      return;
+    }
+
     this.$emit('add-team', this.teamName);
     this.teamName = '';
   }
@@ -59,6 +60,11 @@ li.add-team {
     i {
       color: theme.$text;
     }
+  }
+
+  div.input-field label,
+  div.input-field input:focus+label {
+    color: theme.$text;
   }
 
   a.btn:hover, a.btn:focus {

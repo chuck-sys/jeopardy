@@ -16,6 +16,7 @@
     <div class="fixed-action-btn">
       <a class="btn-floating btn-large danger"
          :class="{pulse: categories.length === 0}"
+         title="Edit Game"
          href="editor.html">
         <i class="material-icons">mode_edit</i>
       </a>
