@@ -12,6 +12,10 @@ jobs:
     - uses: borales/actions-yarn@v3.0.0
       with:
         cmd: build
+    - uses: actions/upload-artifact@v3
+      with:
+        name: github-pages
+        path: dist/
 
   deploy:
     needs: build
