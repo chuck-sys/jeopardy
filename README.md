@@ -1,7 +1,5 @@
 # Jeopardy
 
-[![pipeline status](https://gitlab.com/chucksys/jeopardy-vue/badges/master/pipeline.svg)](https://gitlab.com/chucksys/jeopardy-vue/-/commits/master)
-[![coverage report](https://gitlab.com/chucksys/jeopardy-vue/badges/master/coverage.svg)](https://gitlab.com/chucksys/jeopardy-vue/-/commits/master)
 [![Website](https://img.shields.io/website?url=https%3A%2F%2Fjeopardy.cheuksblog.ca)](https://jeopardy.cheuksblog.ca)
 
 A web-based jeopardy clone. Built with Vue and Typescript. Created because I
