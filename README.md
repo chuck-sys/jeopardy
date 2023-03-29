@@ -1,38 +1,46 @@
-# Jeopardy
+# jeopardy
 
-[![Website](https://img.shields.io/website?url=https%3A%2F%2Fjeopardy.cheuksblog.ca)](https://jeopardy.cheuksblog.ca)
+This template should help get you started developing with Vue 3 in Vite.
 
-A web-based jeopardy clone. Built with Vue and Typescript. Created because I
-insisted that there aren't good pieces of open source software to help in
-editing and playing Jeopardy-style games. And also because the traditional
-solution of using MS PowerPoint is a hassle to set up.
+## Recommended IDE Setup
 
-## Building
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
-Make sure you have `yarn` (and `node`) installed.
+## Type Support for `.vue` Imports in TS
 
-```bash
-yarn install
-yarn build			# compiles & minifies for production
+TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+
+If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+
+1. Disable the built-in TypeScript Extension
+    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
+    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
+2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+
+## Customize configuration
+
+See [Vite Configuration Reference](https://vitejs.dev/config/).
+
+## Project Setup
+
+```sh
+npm install
 ```
 
-You will find the built code in `dist/`.
+### Compile and Hot-Reload for Development
 
-## Contribution
-
-Contributions are always welcome, whether it be in the form of feature
-requests, bug reports, or code!
-
-If you are contributing code, the recommended workflow is as follows:
-
-```bash
-yarn serve			# starts up dev server (it lints on save)
-
-# In another window:
-$EDITOR src/App.vue		# start hacking
-yarn test			# make sure tests pass
+```sh
+npm run dev
 ```
 
-Commits should follow [this guide][conventional-commits].
+### Type-Check, Compile and Minify for Production
 
-[conventional-commits]: https://www.conventionalcommits.org/en/v1.0.0/
+```sh
+npm run build
+```
+
+### Lint with [ESLint](https://eslint.org/)
+
+```sh
+npm run lint
+```
