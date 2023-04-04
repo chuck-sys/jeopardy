@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import M from 'materialize-css'
 </script>
 
 <template>
-  <main>
-  </main>
+  Questions panel
 </template>
 
 <style scoped>

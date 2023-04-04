@@ -3,13 +3,7 @@ import M from 'materialize-css'
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
-    </div>
-  </header>
-
-  <main>
-  </main>
+  <router-view></router-view>
 </template>
 
 <style scoped>
