@@ -1,9 +1,5 @@
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
-<template>
-  Scoreboard
-</template>
+<template>Scoreboard</template>
 
-<style scoped>
-</style>
+<style scoped></style>

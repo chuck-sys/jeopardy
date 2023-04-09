@@ -1,9 +1,5 @@
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
-<template>
-  Questions panel
-</template>
+<template>Questions panel</template>
 
-<style scoped>
-</style>
+<style scoped></style>
