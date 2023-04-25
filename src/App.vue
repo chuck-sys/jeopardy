@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import M from 'materialize-css'
+import M from 'materialize-css';
 </script>
 
 <template>

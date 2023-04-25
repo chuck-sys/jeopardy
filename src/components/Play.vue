@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import M from 'materialize-css'
-import { watch } from 'vue'
-import Scoreboard from './Scoreboard.vue'
-import QuestionsPanel from './QuestionsPanel.vue'
+import M from 'materialize-css';
+import { watch } from 'vue';
+import Scoreboard from './Scoreboard.vue';
+import QuestionsPanel from './QuestionsPanel.vue';
 </script>
 
 <template>

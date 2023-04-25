@@ -1,5 +1,5 @@
-import { createWebHistory, createRouter } from 'vue-router'
-import type { RouteRecordRaw } from 'vue-router'
+import { createWebHistory, createRouter } from 'vue-router';
+import type { RouteRecordRaw } from 'vue-router';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -12,11 +12,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'edit',
     component: () => import('./components/Edit.vue')
   }
-]
+];
 
 const router = createRouter({
   history: createWebHistory(),
   routes
-})
+});
 
-export default router
+export default router;
