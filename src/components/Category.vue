@@ -15,7 +15,6 @@ const emit = defineEmits<{
 }>();
 </script>
 
-
 <template>
   <div>
     <div @click="emit('click-category-heading')">{{ modelValue.name }}</div>
@@ -24,5 +23,7 @@ const emit = defineEmits<{
         v-for="(q, i) in modelValue.questions"
         v-model="q"
         @click-question="emit('click-question', i)"/>
+
+    <slot></slot>
   </div>
 </template>

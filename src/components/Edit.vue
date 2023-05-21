@@ -28,7 +28,7 @@ if (queryB64) {
   }
 }
 
-let mode = ref('config');
+let mode = ref('all');
 
 watch(workingData, async (newData, _) => {
   if (newData.config.autoSave) {
@@ -36,39 +36,14 @@ watch(workingData, async (newData, _) => {
     saveToLocalStorage(defaultSaveName, newData);
   }
 });
-
-let selectedCategoryId : number | null = null;
-function onClickCategoryHeading(categoryId: number) {
-  selectedCategoryId = categoryId;
-  mode.value = 'category';
-}
-
-let selectedQuestionId : number | null = null;
-function onClickQuestion(categoryId: number, questionId: number) {
-  selectedCategoryId = categoryId;
-  selectedQuestionId = questionId;
-  mode.value = 'question';
-}
 </script>
 
 <template>
   <main>
     <EditAllQuestions
-        v-if="mode === 'all'"
-        v-model="workingData.data"
-        @click-category-heading="onClickCategoryHeading"
-        @click-question="onClickQuestion"/>
-
-    <section v-if="mode === 'question'">
-      Edit a question
-    </section>
-
-    <section v-if="mode === 'category'">
-      Edit a category
-    </section>
+        v-model="workingData.data" />
 
     <Config
-        v-if="mode === 'config'"
         v-model="workingData.config" />
 
     <section v-if="mode === 'load'">
