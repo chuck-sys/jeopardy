@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import M from 'materialize-css';
 import { ref, watch, reactive } from 'vue';
 import { useRoute } from 'vue-router';
 import { emptySaveData, saveToLocalStorage, loadDefaultSaveNameFromLocalStorage, loadSaveFromBase64, loadSaveFromLocalStorage } from '../storage';
@@ -56,7 +55,7 @@ watch(workingData, async (newData, _) => {
       Load save
     </section>
 
-    <section v-if="mode == 'save'">
+    <section v-if="mode === 'save'">
       Save to
     </section>
   </main>
