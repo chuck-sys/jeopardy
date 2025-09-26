@@ -1,0 +1,61 @@
+import Dexie, { Table } from 'dexie';
+
+import { Injectable } from '@angular/core';
+
+import { Config } from './config';
+
+export interface JeopardyGame {
+  id?: number;
+  name: string;
+  lastSaveTime: Date;
+}
+
+export interface Category {
+  id?: number;
+  gameId: number;
+
+  name: string;
+  orderNumber: number;
+}
+
+export interface Question {
+  id?: number;
+  categoryId: number;
+
+  points: number;
+  question: string;
+  answer: string;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class Database extends Dexie {
+  jeopardyGames!: Table<JeopardyGame, number>;
+  categories!: Table<Category, number>;
+  questions!: Table<Question, number>;
+
+  constructor(cfg: Config) {
+    super('ngdexieliveQuery');
+
+    this.version(1).stores({
+      jeopardyGames: '++id',
+      categories: '++id, gameId',
+      questions: '++id, categoryId',
+    });
+
+    this.jeopardyGames
+      .get(cfg.selectedGameId)
+      .then(selectedGame => {
+        if (selectedGame !== undefined) {
+          return;
+        }
+
+        this.jeopardyGames.add({
+          id: cfg.selectedGameId,
+          name: 'Untitled jeopardy game',
+          lastSaveTime: new Date(),
+        });
+      });
+  }
+}

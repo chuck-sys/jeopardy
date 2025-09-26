@@ -1,0 +1,11 @@
+@if (isEditing) {
+<input
+  type="text"
+  autofocus
+  [(ngModel)]="newName"
+
+  (keyup.escape)="handleCancelEditHeader()"
+  (keyup.enter)="handleSubmitHeader()">
+} @else {
+<h3 (click)="handleClickHeader()">{{ gameName() }}</h3>
+}

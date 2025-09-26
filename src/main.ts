@@ -1,8 +1,6 @@
-import Vue from 'vue';
-import App from './App.vue';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { appConfig } from './app/app.config';
+import { App } from './app/app';
 
-Vue.config.productionTip = false;
-
-new Vue({
-  render: (h) => h(App),
-}).$mount('#app');
+bootstrapApplication(App, appConfig)
+  .catch((err) => console.error(err));
