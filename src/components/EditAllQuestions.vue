@@ -52,6 +52,7 @@ function onClickAddCategory() {
     <Category
         v-for="(category, i) in modelValue"
         v-model="category"
+
         @click-category-heading="onClickCategoryHeading(i)"
         @click-question="questionId => onClickQuestion(i, questionId)">
 
