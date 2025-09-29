@@ -1,11 +1,17 @@
 @if (isEditing) {
-<input
-  type="text"
-  autofocus
-  [(ngModel)]="newName"
+<div class="input-field">
+  <label>
+    Title
+    <input
+      type="text"
+      autofocus
+      [(ngModel)]="newName"
 
-  (keyup.escape)="handleCancelEditHeader()"
-  (keyup.enter)="handleSubmitHeader()">
+      (focusout)="handleCancelEditHeader()"
+      (keyup.escape)="handleCancelEditHeader()"
+      (keyup.enter)="handleSubmitHeader()">
+  </label>
+</div>
 } @else {
-<h3 (click)="handleClickHeader()">{{ gameName() }}</h3>
+<h3 (click)="handleClickHeader()">{{ gameName() }} <i class="material-icons">edit</i></h3>
 }
