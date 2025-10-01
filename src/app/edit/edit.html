@@ -1,7 +1,23 @@
-<hr>
+<section class="edit-controls">
+  <mat-grid-list cols="4" rowHeight="4rem">
+    <mat-grid-tile [colspan]="4">
+      <app-edit-title
+          [gameName]="selectedGameName()"
+          (nameChanged)="handleChangeName($event)"></app-edit-title>
+    </mat-grid-tile>
 
-<section>
-  <app-edit-title
-    [gameName]="selectedGameName()"
-    (nameChanged)="handleChangeName($event)"/>
+    <mat-grid-tile>
+      <a matButton="filled" routerLink="/"><mat-icon>play_arrow</mat-icon>Play</a>
+    </mat-grid-tile>
+
+    <mat-grid-tile>
+      <button class="danger" matButton="filled" routerLink="/">Reset History</button>
+    </mat-grid-tile>
+
+    <mat-grid-tile>
+      <button class="danger" matButton="filled" routerLink="/">Delete Teams</button>
+    </mat-grid-tile>
+  </mat-grid-list>
 </section>
+
+<app-edit-categories></app-edit-categories>

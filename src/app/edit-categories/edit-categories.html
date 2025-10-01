@@ -1,0 +1,3 @@
+@for (category of categories$ | async; track category.id) {
+  <app-edit-category [category]="category"></app-edit-category>
+}

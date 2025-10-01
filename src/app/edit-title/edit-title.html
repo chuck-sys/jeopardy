@@ -1,17 +1,15 @@
 @if (isEditing) {
-<div class="input-field">
-  <label>
-    Title
-    <input
-      type="text"
-      autofocus
-      [(ngModel)]="newName"
+<mat-form-field>
+  <mat-label>Title</mat-label>
+  <input
+    matInput
+    appAutoFocus
+    [(ngModel)]="newName"
 
-      (focusout)="handleCancelEditHeader()"
-      (keyup.escape)="handleCancelEditHeader()"
-      (keyup.enter)="handleSubmitHeader()">
-  </label>
-</div>
+    (focusout)="handleCancelEditHeader()"
+    (keyup.escape)="handleCancelEditHeader()"
+    (keyup.enter)="handleSubmitHeader()">
+</mat-form-field>
 } @else {
-<h3 (click)="handleClickHeader()">{{ gameName() }} <i class="material-icons">edit</i></h3>
+<h2 (click)="handleClickHeader()">{{ gameName() }} <mat-icon fontIcon="edit"></mat-icon></h2>
 }
