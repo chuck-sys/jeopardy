@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { Database, Category, Question, JeopardyGame } from './database';
+import { Database, Category, Question } from './database';
 import { ILocalStorage, LOCAL_STORAGE } from './local-storage';
 
 export interface QuestionCompat {
@@ -20,12 +20,15 @@ export interface CategoryCompat {
   providedIn: 'root',
 })
 export class LocalStorageCompat {
+  public static readonly STORAGE_KEY = 'categories';
+  public static readonly BACKUP_KEY = 'categories-compat';
+
   constructor(
     private db: Database,
     @Inject(LOCAL_STORAGE) private localStorage: ILocalStorage) {}
 
   getCompatCategories(): Array<CategoryCompat> | null {
-    const s = this.localStorage.getItem('categories');
+    const s = this.localStorage.getItem(LocalStorageCompat.STORAGE_KEY);
     if (s === null) {
       return null;
     }
@@ -34,13 +37,13 @@ export class LocalStorageCompat {
   }
 
   backupCompatCategories() {
-    const s = this.localStorage.getItem('categories');
+    const s = this.localStorage.getItem(LocalStorageCompat.STORAGE_KEY);
     if (s === null) {
       return;
     }
 
-    this.localStorage.removeItem('categories');
-    this.localStorage.setItem('categories-compat', s);
+    this.localStorage.removeItem(LocalStorageCompat.STORAGE_KEY);
+    this.localStorage.setItem(LocalStorageCompat.BACKUP_KEY, s);
   }
 
   async saveCategories(categoriesCompat: Array<CategoryCompat>) {
