@@ -36,7 +36,7 @@ export class Database extends Dexie {
   questions!: Table<Question, number>;
 
   constructor(cfg: Config) {
-    super('ngdexieliveQuery');
+    super('jeopardy');
 
     this.version(1).stores({
       jeopardyGames: '++id',

@@ -13,7 +13,7 @@ import { Database } from '../database';
   selector: 'app-edit',
   imports: [EditTitle, RouterLink, MatIconModule, MatButtonModule, EditCategories, MatGridListModule],
   templateUrl: './edit.html',
-  styleUrl: './edit.scss'
+  styleUrl: './edit.scss',
 })
 export class Edit {
   selectedGameName = signal('');
