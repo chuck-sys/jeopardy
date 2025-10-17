@@ -1,0 +1,19 @@
+<div (click)="handleClick()">
+  @if (editView.displayQuestion === TileDisplayMode.Full) {
+    <span class="question">
+      {{ question()?.question }}
+    </span>
+  }
+
+  @if (editView.displayScore === TileDisplayMode.Full) {
+    <span class="points">
+      {{ question()?.points }}
+    </span>
+  }
+
+  @if (editView.displayAnswer === TileDisplayMode.Full) {
+    <span class="answer">
+      {{ question()?.answer }}
+    </span>
+  }
+</div>

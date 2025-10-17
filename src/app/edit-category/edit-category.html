@@ -1,4 +1,8 @@
 <section>
   <div class="category-head j-box">{{ category()?.name }}</div>
+  @for (question of questions$ | async; track question.id) {
+    <app-question-tile
+        [question]="question"></app-question-tile>
+  }
   <button matButton="filled"><mat-icon>add</mat-icon>New Question</button>
 </section>
