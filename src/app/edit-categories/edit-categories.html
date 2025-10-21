@@ -1,3 +1,5 @@
 @for (category of categories$ | async; track category.id) {
   <app-edit-category [category]="category"></app-edit-category>
 }
+
+<button matButton="filled" (click)="handleClickNewCategory($event)"><mat-icon>add</mat-icon>New Category</button>
