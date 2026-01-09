@@ -19,10 +19,11 @@ const emit = defineEmits<{
   <div>
     <div @click="emit('click-category-heading')">{{ modelValue.name }}</div>
 
-    <Question
-        v-for="(q, i) in modelValue.questions"
-        v-model="q"
-        @click-question="emit('click-question', i)"/>
+    <template v-for="(q, i) in modelValue.questions">
+      <Question
+          v-model="q"
+          @click-question="emit('click-question', i)"/>
+    </template>
 
     <slot></slot>
   </div>

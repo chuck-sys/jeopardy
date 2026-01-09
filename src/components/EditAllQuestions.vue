@@ -49,17 +49,18 @@ function onClickAddCategory() {
 
 <template>
   <section>
-    <Category
-        v-for="(category, i) in modelValue"
-        v-model="category"
-
-        @click-category-heading="onClickCategoryHeading(i)"
-        @click-question="questionId => onClickQuestion(i, questionId)">
-
-        <div @click="onClickAddQuestion(i)">
-          Add question
-        </div>
-    </Category>
+    <template v-for="(category, i) in modelValue" :key="i">
+      <!--<Category
+          v-model="category"
+      
+          @click-category-heading="onClickCategoryHeading(i)"
+          @click-question="questionId => onClickQuestion(i, questionId)">
+      
+          <div @click="onClickAddQuestion(i)">
+            Add question
+          </div>
+      </Category>-->
+    </template>
 
     <button
         @click="onClickAddCategory">Add category</button>
