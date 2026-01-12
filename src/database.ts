@@ -26,6 +26,14 @@ export interface Question {
   answer: string;
 }
 
+/**
+ * Teams not connected to a particular game.
+ */
+export interface Team {
+  id?: number;
+  name: string;
+}
+
 export class Database extends Dexie {
   jeopardyGames!: Table<JeopardyGame, number>;
   categories!: Table<Category, number>;
