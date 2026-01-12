@@ -7,9 +7,6 @@
     "build": "run-p type-check build-only",
     "preview": "vite preview",
     "build-only": "vite build",
-    "type-check": "vue-tsc --noEmit",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "format": "prettier --write src/"
   },
   "dependencies": {
     "materialize-css": "^1.0.0",
