@@ -3,6 +3,9 @@ import Dexie from 'dexie';
 
 import type { Config } from './config';
 
+/**
+ * We manually increment possible ids because this isn't a SQL database with actual features.
+ */
 export interface IncrementingIds {
   category: number;
   question: number;
@@ -45,12 +48,15 @@ export interface QuestionAnsweredEntry {
 
   isCorrect: boolean;
   pointsObtained: number;
+
+  timestamp: Date;
 }
 
 export interface Team {
   id?: number;
   name: string;
 
+  score: number;
   questionsAnswered: Map<number, QuestionAnsweredEntry>;
 }
 
